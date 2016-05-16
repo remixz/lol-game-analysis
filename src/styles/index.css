@@ -1,6 +1,7 @@
 @import "normalize.css";
 @import "nouislider.css";
 @import "buttons.css";
+@import "forms.css";
 @import "../components/Minimap/index.css";
 @import "../components/TimeSlider/index.css";
 @import "../components/PlayerTable/index.css";
@@ -50,6 +51,10 @@ h1, h2 {
   position: absolute;
   top: -8px;
   right: 0;
+}
+
+.speed-form {
+  float: right;
 }
 
 .fineprint {

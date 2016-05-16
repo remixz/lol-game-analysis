@@ -8,7 +8,8 @@ class Overview extends React.Component {
     super(props)
     this.state = {
       selectedGameData: props.game[0],
-      timer: null
+      timer: null,
+      timerSpeed: '1'
     }
   }
 
@@ -21,20 +22,37 @@ class Overview extends React.Component {
     })
   }
 
-  toggleTimer (val) {
+  _createTimer (speed) {
+    let timer = setInterval(() => {
+      let id = this.props.game.indexOf(this.state.selectedGameData)
+      this.setState({
+        selectedGameData: this.props.game[id + 1]
+      })
+    }, 1000 / parseInt(speed))
+    this.setState({ timer })
+  }
+
+  toggleTimer () {
     if (this.state.timer) {
       clearInterval(this.state.timer)
       this.setState({
         timer: null
       })
     } else {
-      let timer = setInterval(() => {
-        let id = this.props.game.indexOf(this.state.selectedGameData)
-        this.setState({
-          selectedGameData: this.props.game[id + 1]
-        })
-      }, 1000)
-      this.setState({ timer })
+      this._createTimer(this.state.timerSpeed)
+    }
+  }
+
+  changeSpeed (ev) {
+    let newValue = ev.target.value
+
+    this.setState({
+      timerSpeed: newValue
+    })
+
+    if (this.state.timer !== null) {
+      clearInterval(this.state.timer)
+      this._createTimer(newValue)
     }
   }
 
@@ -49,6 +67,15 @@ class Overview extends React.Component {
       <div className='overview'>
         <TimeSlider seeking={this.state.timer !== null} min={min} max={max} start={start} onSlide={this.onSliderChange.bind(this)} />
         <button className='pure-button pure-button-primary play-button' onClick={this.toggleTimer.bind(this)}>{this.state.timer !== null ? 'Pause' : 'Play'}</button>
+        <div className='pure-form speed-form'>
+          <label for='speed-select'>Playback Speed: </label>
+          <select id='speed-select' value={this.state.timerSpeed} onChange={this.changeSpeed.bind(this)}>
+            <option value='1'>1x</option>
+            <option value='2'>2x</option>
+            <option value='5'>5x</option>
+            <option value='10'>10x</option>
+          </select>
+        </div>
         <Minimap data={this.state.selectedGameData} />
         <PlayerTable data={this.state.selectedGameData} />
       </div>
