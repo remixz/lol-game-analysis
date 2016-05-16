@@ -1,0 +1,8 @@
+.minimap {
+  width: 512px;
+  margin: 0 auto;
+}
+
+.minimap .player-dead {
+  opacity: 0.4;
+}

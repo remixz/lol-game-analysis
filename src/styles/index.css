@@ -1,0 +1,46 @@
+@import "normalize.css";
+@import "nouislider.css";
+@import "buttons.css";
+@import "../components/Minimap/index.css";
+@import "../components/TimeSlider/index.css";
+@import "../components/PlayerTable/index.css";
+
+html {
+  box-sizing: border-box;
+}
+*, *:before, *:after {
+  box-sizing: inherit;
+}
+
+body {
+  width: 1200px;
+  margin: 0 auto;
+  color: #777;
+  letter-spacing: 0.01em;
+}
+
+h1, h2 {
+  color: #4b4b4b;
+}
+
+.float-left {
+  float: left;
+}
+
+.hello-friends {
+  width: 800px;
+  margin: 0 auto;
+  background-color: #f2f2f2;
+  padding: 15px;
+  border-radius: 0 0 2px 2px;
+}
+
+.hello-friends button {
+  display: block;
+  margin: 0 auto;
+  width: 200px;
+}
+
+.fineprint {
+  font-size: 12px;
+}

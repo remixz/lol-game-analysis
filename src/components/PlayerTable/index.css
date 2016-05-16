@@ -1,0 +1,70 @@
+.player-table ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.player-table li {
+  display: block;
+  border-bottom: 1px solid #eee;
+  width: 600px;
+  height: 100px;
+  padding: 5px;
+}
+
+.player-table li:last-child {
+  border-bottom: 0;
+}
+
+.player-table .player-icon img {
+  width: 64px;
+  height: 64px;
+  margin-top: 12px;
+}
+
+.player-table .player-name {
+  color: #4b4b4b;
+}
+
+.player-table .player-details {
+  margin-left: 10px;
+}
+
+.player-table .player-details-right {
+  margin-top: 10px;
+}
+
+.player-table .player-details .item-icon {
+  margin-right: 2px;
+}
+
+.player-table .player-details .item-icon-trinket {
+  margin-left: 3px;
+}
+
+.player-table .player-details .player-items img {
+  width: 32px;
+  height: 32px;
+}
+
+.player-table .player-details .player-health {
+  width: 275px;
+  height: 15px;
+  margin-bottom: 10px;
+  background-color: #4b4b4b;
+  position: relative;
+}
+
+.player-table .player-details .health-bar {
+  background-color: #1cb841;
+  height: 15px;
+}
+
+.player-table .player-details .health-text {
+  position: absolute;
+  color: white;
+  top: 0;
+  text-align: center;
+  width: 275px;
+  font-size: 12px;
+}
