@@ -16,7 +16,7 @@ const SUMMONER_IDS = {
 */
 
 const TRINKET_IDS = [3340, 3341, 3363, 3364]
-function filterItems (items) {
+function filterItems (items, name) {
   let uniqs = []
   let trinket = 0
   let els = []
@@ -26,6 +26,7 @@ function filterItems (items) {
       trinket = item
       return
     }
+    if (name === 'CLG Huhi' && item === 3111) return // he did not buy this item ever, but the riot data has it for some reason. only case where this happened though, so can make exception
     if (uniqs.indexOf(item) === -1) uniqs.push(item)
   })
 
@@ -90,7 +91,7 @@ class PlayerTable extends React.Component {
                     <span className='health-text'> {player.p} / {player.maxPower} </span>
                   </div>
                   <div className='player-items'>
-                    {filterItems(player.items)}
+                    {filterItems(player.items, player.summonerName)}
                   </div>
                 </div>
                 <div className='player-details player-details-right float-left'>
