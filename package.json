@@ -28,6 +28,7 @@
     "babel-preset-react-hmre": "^1.1.1",
     "css-loader": "^0.23.1",
     "d3-scale": "^0.7.0",
+    "es6-promise": "^3.2.1",
     "hjs-webpack": "^8.1.0",
     "postcss-loader": "^0.9.1",
     "react": "^15.0.2",
@@ -35,7 +36,8 @@
     "react-nouislider": "^1.11.0",
     "style-loader": "^0.13.1",
     "surge": "^0.18.0",
-    "webpack": "^1.13.0"
+    "webpack": "^1.13.0",
+    "whatwg-fetch": "^1.0.0"
   },
   "devDependencies": {
     "standard": "^7.0.1"
