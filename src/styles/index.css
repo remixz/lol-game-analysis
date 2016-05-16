@@ -41,6 +41,17 @@ h1, h2 {
   width: 200px;
 }
 
+.overview {
+  position: relative;
+}
+
+.play-button {
+  width: 85px;
+  position: absolute;
+  top: -8px;
+  right: 0;
+}
+
 .fineprint {
   font-size: 12px;
 }
