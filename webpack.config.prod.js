@@ -6,7 +6,7 @@ const React = require('react')
 const ReactDOMServer = require('react-dom/server')
 const App = require('./src/views/app').default
 
-const rawData = fs.readFileSync('./public/data/CLG-SKT-G1-1c0aa97a8b1c4ecabdc.json')
+const rawData = fs.readFileSync('./public/data/TRLT3-70046.json')
 let jsonData = JSON.parse(rawData)
 
 let config = getConfig({
