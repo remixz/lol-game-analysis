@@ -4,10 +4,16 @@ require('es6-promise').polyfill()
 
 import React from 'react'
 import { render } from 'react-dom'
+import { Router, Route, IndexRoute, browserHistory } from 'react-router'
 import App from './views/app'
+import Index from './views/index'
+import Match from './views/match'
 
-window.fetch('/data/TRLT3-70046.json')
-  .then((response) => response.json())
-  .then((json) => {
-    render(<App data={json} />, document.querySelector('#root'))
-  })
+render((
+  <Router history={browserHistory}>
+    <Route path='/' component={App}>
+      <IndexRoute component={Index}></IndexRoute>
+      <Route path='/match/:id' component={Match}></Route>
+    </Route>
+  </Router>
+), document.getElementById('root'))

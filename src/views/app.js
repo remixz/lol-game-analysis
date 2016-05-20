@@ -1,24 +1,16 @@
 import React from 'react'
-import Overview from './overview'
 
 class App extends React.Component {
   constructor (props) {
     super(props)
     this.state = {
-      isLoading: true,
-      showMessage: true
+      showMessage: false
     }
-  }
-
-  componentDidMount () {
-    this.setState({
-      isLoading: false
-    })
   }
 
   toggleMessage () {
     this.setState({
-      showMessage: false
+      showMessage: !this.state.showMessage
     })
   }
 
@@ -32,11 +24,7 @@ class App extends React.Component {
             <button className='pure-button pure-button-primary' onClick={this.toggleMessage.bind(this)}> Close this message </button>
           </div>
         ) : null}
-        <h1> CLG vs SKT - Game 1 </h1>
-        {this.state.isLoading ? (
-          <h2> Loading full game data... (this may take a few seconds!) </h2>
-        ) : null}
-        <Overview game={this.props.data} />
+        {this.props.children}
         <p className='fineprint'> This project isn’t endorsed by Riot Games and doesn’t reflect the views or opinions of Riot Games or anyone officially involved in producing or managing League of Legends. League of Legends and Riot Games are trademarks or registered trademarks of Riot Games, Inc. League of Legends &copy; Riot Games, Inc. </p>
       </div>
     )

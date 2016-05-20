@@ -5,22 +5,28 @@ const getConfig = require('hjs-webpack')
 const React = require('react')
 const ReactDOMServer = require('react-dom/server')
 const App = require('./src/views/app').default
-
-const rawData = fs.readFileSync('./public/data/TRLT3-70046.json')
-let jsonData = JSON.parse(rawData)
+const Index = require('./src/views/index').default
+const Match = require('./src/views/match').default
 
 let config = getConfig({
   in: 'src/app.js',
   out: 'public',
   clearBeforeBuild: '!(data|img)',
   html (context) {
-    let rendered = ReactDOMServer.renderToString(React.createElement(App, { data: jsonData }))
-    let template = context.defaultTemplate({
-      title: 'CLG vs SKT Game 1 Analysis',
-      html: `<div id="root">${rendered}</div>`
-    })
+    let title = 'League of Legends Interactive Timeline'
+    function generateHtml (view) {
+      return `<div id="root">${ReactDOMServer.renderToString(React.createElement(App, {}, React.createElement(view)))}</div>`
+    }
+
     return {
-      '200.html': template
+      'index.html': context.defaultTemplate({
+        title,
+        html: generateHtml(Index)
+      }),
+      '200.html': context.defaultTemplate({
+        title,
+        html: generateHtml(Match)
+      })
     }
   }
 })

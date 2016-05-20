@@ -5,7 +5,7 @@ let config = getConfig({
   out: 'public',
   html (context) {
     let template = context.defaultTemplate({
-      title: 'CLG vs SKT Game 1 Analysis'
+      title: 'League of Legends Interactive Timeline'
     })
     return {
       'index.html': template

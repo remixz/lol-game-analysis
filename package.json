@@ -6,6 +6,7 @@
     "start": "hjs-dev-server",
     "build": "NODE_ENV=production webpack --config=webpack.config.prod.js",
     "deploy": "npm run build && surge public/ -d timeline.bruggie.com",
+    "deploy:staging": "npm run build && surge public/ -d lol-timeline-staging.surge.sh",
     "test": "standard"
   },
   "repository": {
@@ -35,6 +36,7 @@
     "react-dom": "^15.0.2",
     "react-motion": "^0.4.3",
     "react-nouislider": "^1.11.0",
+    "react-router": "^2.4.1",
     "style-loader": "^0.13.1",
     "surge": "^0.18.0",
     "webpack": "^1.13.0",

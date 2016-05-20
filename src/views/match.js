@@ -3,19 +3,20 @@ import TimeSlider from '../components/TimeSlider'
 import Minimap from '../components/Minimap'
 import PlayerTable from '../components/PlayerTable'
 
-class Overview extends React.Component {
+class Match extends React.Component {
   constructor (props) {
     super(props)
     this.state = {
-      selectedGameData: props.game[0],
+      game: [],
+      selectedGameData: {},
       timer: null,
-      timerSpeed: '1'
+      timerSpeed: '1',
     }
   }
 
   onSliderChange (val) {
     let time = parseInt(val[0], 10)
-    let closest = this.props.game.reduce((prev, curr) => (Math.abs(curr.t - time) < Math.abs(prev.t - time) ? curr : prev))
+    let closest = this.state.game.reduce((prev, curr) => (Math.abs(curr.t - time) < Math.abs(prev.t - time) ? curr : prev))
 
     this.setState({
       selectedGameData: closest
@@ -24,9 +25,9 @@ class Overview extends React.Component {
 
   _createTimer (speed) {
     let timer = setInterval(() => {
-      let id = this.props.game.indexOf(this.state.selectedGameData)
+      let id = this.state.game.indexOf(this.state.selectedGameData)
       this.setState({
-        selectedGameData: this.props.game[id + 1]
+        selectedGameData: this.state.game[id + 1]
       })
     }, 1000 / parseInt(speed))
     this.setState({ timer })
@@ -56,15 +57,23 @@ class Overview extends React.Component {
     }
   }
 
+  componentDidMount () {
+    window.fetch(`/data/${this.props.params.id}.json`)
+      .then((res) => res.json())
+      .then((game) => this.setState({ game, selectedGameData: game[0] }))
+  }
+
   render () {
-    let { game } = this.props
-    if (game.length === 0) return null
+    let { game } = this.state
+    if (game.length === 0) return (<h1> Loading game data... </h1>)
     let min = game[0].t
     let max = game[game.length - 1].t
     let start = this.state.selectedGameData.t
+    let nameInfo = game[0].generatedName.split('|')
 
     return (
       <div className='overview'>
+        <h1> {nameInfo[0]} vs {nameInfo[1]} - Game {nameInfo[2].split('G')[1]} </h1>
         <TimeSlider seeking={this.state.timer !== null} min={min} max={max} start={start} onSlide={this.onSliderChange.bind(this)} />
         <button className='pure-button pure-button-primary play-button' onClick={this.toggleTimer.bind(this)}>{this.state.timer !== null ? 'Pause' : 'Play'}</button>
         <div className='pure-form speed-form'>
@@ -83,4 +92,4 @@ class Overview extends React.Component {
   }
 }
 
-export default Overview
+export default Match

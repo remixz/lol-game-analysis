@@ -18,8 +18,8 @@ request('http://api.lolesports.com/api/issueToken', { json: true }, (err, res, b
   if (err) throw err
 
   function connectToSocket () {
-    // let ws = new WebSocket(`ws://livestats.proxy.lolesports.com/stats?jwt=${body.token}`)
-    let ws = new WebSocket(`ws://localhost:8080`)
+    let ws = new WebSocket(`ws://livestats.proxy.lolesports.com/stats?jwt=${body.token}`)
+    // let ws = new WebSocket(`ws://localhost:8080`) // used for simulation of livestats server
 
     ws.on('close', connectToSocket)
 
