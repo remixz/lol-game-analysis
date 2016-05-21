@@ -19,13 +19,20 @@ let gcs = gcloud.storage()
 let matchesBucket = gcs.bucket(process.env.LOL_TIMELINE_GCLOUD_BUCKET)
 
 function connectToSocket () {
+  console.log('connecting to websocket...')
   request('http://api.lolesports.com/api/issueToken', { json: true }, (err, res, body) => {
-    if (err) throw err
+    if (err) console.error(err)
 
     let ws = new WebSocket(`ws://livestats.proxy.lolesports.com/stats?jwt=${body.token}`)
     // let ws = new WebSocket(`ws://localhost:8080`) // used for simulation of livestats server
 
-    ws.on('close', connectToSocket)
+    ws.on('close', (code, message) => {
+      console.log('weboscket has closed. info:')
+      console.log(`  code: ${code}`)
+      console.log(`  message: ${message}`)
+      console.log('reconnecting...')
+      connectToSocket()
+    })
 
     ws.on('message', (msg) => {
       let json = {}
@@ -43,6 +50,7 @@ function connectToSocket () {
         if (!games[key]) {
           console.log(`adding game ${game.realm}-${key}`)
           let filePath = `${process.cwd()}/games/${game.realm}-${key}.json`
+          let fileExisted = fileExists(filePath)
           games[key] = {
             stream: fs.createWriteStream(filePath, { flags: 'a' }),
             obj: game,
@@ -50,7 +58,9 @@ function connectToSocket () {
             written: fileExists(filePath + '.finished')
           }
 
-          games[key].stream.write(`[\n`)
+          if (!fileExisted) {
+            games[key].stream.write(`[\n`)
+          }
         }
 
         if (games[key].written) {
@@ -78,6 +88,7 @@ function connectToSocket () {
             let filePath = `${process.cwd()}/games/${games[key].id}.json`
 
             fs.writeFile(filePath + '.finished', '', (err) => {
+              if (err) console.error(err)
               games[key].written = true
 
               console.log(`uploading file for ${games[key].id}...`)
