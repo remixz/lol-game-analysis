@@ -58,7 +58,8 @@ class Match extends React.Component {
   }
 
   componentDidMount () {
-    window.fetch(`/data/${this.props.params.id}.json`)
+    let host = (process.env.NODE_ENV === 'production' ? '//timeline-cdn.bruggie.com/matches' : '/matches')
+    window.fetch(`${host}/${this.props.params.id}.json`)
       .then((res) => res.json())
       .then((game) => this.setState({ game, selectedGameData: game[0] }))
   }

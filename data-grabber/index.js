@@ -1,9 +1,11 @@
 const fs = require('fs')
-const zlib = require('zlib')
 const request = require('request')
 const WebSocket = require('ws')
 const fileExists = require('file-exists')
 const _ = require('lodash')
+const gcloud = require('gcloud')({
+  projectId: process.env.LOL_TIMELINE_GCLOUD_PROJECT
+})
 
 function formatTime (ms) {
   let min = (ms/1000/60) << 0
@@ -13,11 +15,13 @@ function formatTime (ms) {
 }
 
 let games = {}
+let gcs = gcloud.storage()
+let matchesBucket = gcs.bucket(process.env.LOL_TIMELINE_GCLOUD_BUCKET)
 
-request('http://api.lolesports.com/api/issueToken', { json: true }, (err, res, body) => {
-  if (err) throw err
+function connectToSocket () {
+  request('http://api.lolesports.com/api/issueToken', { json: true }, (err, res, body) => {
+    if (err) throw err
 
-  function connectToSocket () {
     let ws = new WebSocket(`ws://livestats.proxy.lolesports.com/stats?jwt=${body.token}`)
     // let ws = new WebSocket(`ws://localhost:8080`) // used for simulation of livestats server
 
@@ -43,7 +47,7 @@ request('http://api.lolesports.com/api/issueToken', { json: true }, (err, res, b
             stream: fs.createWriteStream(filePath, { flags: 'a' }),
             obj: game,
             id: `${game.realm}-${key}`,
-            written: fileExists(filePath + '.gz')
+            written: fileExists(filePath + '.finished')
           }
 
           games[key].stream.write(`[\n`)
@@ -72,18 +76,25 @@ request('http://api.lolesports.com/api/issueToken', { json: true }, (err, res, b
             games[key].stream.destroy()
 
             let filePath = `${process.cwd()}/games/${games[key].id}.json`
-            let gzip = zlib.createGzip({ level: 9 })
 
-            fs.createReadStream(filePath).pipe(gzip).pipe(fs.createWriteStream(filePath + '.gz').on('close', () => {
+            fs.writeFile(filePath + '.finished', '', (err) => {
               games[key].written = true
-              console.log(`wrote gzipped file for ${games[key].id}`)
-              // upload logic
-            }))
+
+              console.log(`uploading file for ${games[key].id}...`)
+              matchesBucket.upload(filePath, {
+                destination: `matches/${games[key].id}.json`,
+                gzip: true,
+                public: true
+              }, (err) => {
+                if (err) console.error(err)
+                console.log(`uploaded file for ${games[key].id}!`)
+              })
+            })
           })
         }
       })
     })
-  }
+  })
+}
 
-  connectToSocket()
-})
+connectToSocket()
