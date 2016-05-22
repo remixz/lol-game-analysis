@@ -14,7 +14,7 @@ let config = getConfig({
   clearBeforeBuild: '!(matches|img)',
   html (context) {
     let title = 'League of Legends Interactive Timeline'
-    let head = '<link rel="dns-prefetch" href="https://timeline-cdn.bruggie.com/">'
+    let head = '<link rel="dns-prefetch" href="https://timeline-cdn.bruggie.com/"><link rel="dns-prefetch" href="https://ddragon.leagueoflegends.com/">'
     function generateHtml (view) {
       return `<div id="root">${ReactDOMServer.renderToString(React.createElement(App, {}, React.createElement(view)))}</div>`
     }
