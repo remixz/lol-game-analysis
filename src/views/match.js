@@ -1,4 +1,6 @@
 import React from 'react'
+import xhr from 'xhr'
+
 import TimeSlider from '../components/TimeSlider'
 import Minimap from '../components/Minimap'
 import PlayerTable from '../components/PlayerTable'
@@ -11,6 +13,7 @@ class Match extends React.Component {
       selectedGameData: {},
       timer: null,
       timerSpeed: '1',
+      loadingProgress: 0
     }
   }
 
@@ -59,14 +62,36 @@ class Match extends React.Component {
 
   componentDidMount () {
     let host = (process.env.NODE_ENV === 'production' ? '//timeline-cdn.bruggie.com/matches' : '/matches')
-    window.fetch(`${host}/${this.props.params.id}.json`)
-      .then((res) => res.json())
-      .then((game) => this.setState({ game, selectedGameData: game[0] }))
+    let req = xhr({
+      method: 'GET',
+      uri: `${host}/${this.props.params.id}.json`,
+      json: true
+    }, (err, resp, game) => {
+      if (err) throw err
+
+      this.setState({
+        game,
+        selectedGameData: game[0]
+      })
+    })
+
+    req.addEventListener('progress', (ev) => {
+      this.setState({
+        loadingProgress: (ev.loaded / ev.total) * 100
+      })
+    })
   }
 
   render () {
     let { game } = this.state
-    if (game.length === 0) return (<h1> Loading game data... </h1>)
+    if (game.length === 0) return (
+      <div className='loading-view'>
+        <h1> Loading game data... ({Math.round(this.state.loadingProgress)}%) </h1>
+        <div className='loading-bar'>
+          <div className='progress' style={{ width: this.state.loadingProgress + '%' }}></div>
+        </div>
+      </div>
+    )
     let min = game[0].t
     let max = game[game.length - 1].t
     let start = this.state.selectedGameData.t

@@ -42,6 +42,16 @@ h1, h2 {
   width: 200px;
 }
 
+.loading-bar {
+  width: 1200px;
+}
+
+.loading-bar .progress {
+  height: 30px;
+  background-color: #5eb95e;
+  border-radius: 2px;
+}
+
 .overview {
   position: relative;
 }
