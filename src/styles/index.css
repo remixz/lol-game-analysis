@@ -28,18 +28,8 @@ h1, h2 {
   float: left;
 }
 
-.hello-friends {
-  width: 800px;
-  margin: 0 auto;
-  background-color: #f2f2f2;
-  padding: 15px;
-  border-radius: 0 0 2px 2px;
-}
-
-.hello-friends button {
-  display: block;
-  margin: 0 auto;
-  width: 200px;
+.about {
+  text-align: right;
 }
 
 .loading-bar {
