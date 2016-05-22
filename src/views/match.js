@@ -1,5 +1,6 @@
 import React from 'react'
 import xhr from 'xhr'
+import { Link } from 'react-router'
 
 import TimeSlider from '../components/TimeSlider'
 import Minimap from '../components/Minimap'
@@ -10,6 +11,7 @@ class Match extends React.Component {
     super(props)
     this.state = {
       game: [],
+      notFound: false,
       selectedGameData: {},
       timer: null,
       timerSpeed: 1000,
@@ -83,6 +85,11 @@ class Match extends React.Component {
       json: true
     }, (err, resp, game) => {
       if (err) throw err
+      if (resp.statusCode !== 200) {
+        return this.setState({
+          notFound: true
+        })
+      }
       let nameInfo = game[0].generatedName.split('|')
 
       // @TODO - figure out way to determine version properly...
@@ -103,6 +110,13 @@ class Match extends React.Component {
   }
 
   render () {
+    if (this.state.notFound) return (
+      <div className='not-found'>
+        <h1> Game Not Found </h1>
+        <p> The timeline data for this game couldn't be found. It's likely that the timeline data wasn't exported for this match, either because it was a match that happend before this tool was created, or because the tournament didn't export this data. <Link to='/'>Visit the homepage</Link> to see which tournaments are supported.</p>
+      </div>
+    )
+
     let { game } = this.state
     if (game.length === 0) return (<h1> Loading game data... </h1>)
     let min = game[0].t

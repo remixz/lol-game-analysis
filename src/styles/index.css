@@ -32,14 +32,50 @@ h1, h2 {
   text-align: right;
 }
 
-.loading-bar {
-  width: 1200px;
+.msi-box {
+  width: 800px;
+  padding: 20px;
+  margin: 0 auto;
+  color: #31708f;
+  background-color: #d9edf7;
+  border: 1px solid #bce8f1;
+  font-size: 22px;
+  font-weight: bold;
+  text-align: center;
+  border-radius: 2px;
 }
 
-.loading-bar .progress {
-  height: 30px;
-  background-color: #5eb95e;
+.info-box {
+  width: 800px;
+  margin: 0 auto;
+}
+
+.info-box > div, .info-box form {
+  float: left;
+  width: 400px;
+}
+
+.info-box .esportspedia-links a {
+  display: block;
+  margin-top: 5px;
+}
+
+.info-box form input[type="text"] {
+  width: 250px;
+}
+
+.info-box form input[type="submit"] {
+  margin-left: 5px;
+}
+
+.not-found p {
+  width: 800px;
+  margin: 0 auto;
+  color: #a94442;
+  background-color: #f2dede;
+  border: 1px solid #ebccd1;
   border-radius: 2px;
+  padding: 20px;
 }
 
 .overview {
@@ -57,6 +93,13 @@ h1, h2 {
   float: right;
 }
 
+.btw {
+  clear: left;
+  padding-top: 25px;
+}
+
 .fineprint {
   font-size: 12px;
+  clear: left;
+  padding-top: 35px;
 }
