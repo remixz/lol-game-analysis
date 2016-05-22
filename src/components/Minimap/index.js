@@ -1,6 +1,5 @@
 import React from 'react'
 import { scaleLinear } from 'd3-scale'
-import { Motion, spring } from 'react-motion'
 
 const SUMMONERS_RIFT_DOMAIN = {
   min: {x: -120, y: -120},
@@ -48,21 +47,20 @@ class Minimap extends React.Component {
             }).map((id) => {
               let player = data.playerStats[id]
               let circleProps = {
+                key: id,
                 r: 16,
                 stroke: (player.teamId === 100 ? '#2747e8' : '#cb2124'),
                 strokeWidth: 2,
                 className: 'player' + (player.h === 0 ? ' player-dead' : ''),
                 style: {
-                  fill: `url(#player-portrait-${id})`
+                  fill: `url(#player-portrait-${id})`,
+                  transform: `translate(${xScale(player.x)}px, ${yScale(player.y)}px)`,
+                  transitionDuration: (this.props.seeking ? `${this.props.speed}ms` : `0ms`)
                 }
               }
 
               return (
-                <Motion key={id} style={{ cx: spring(xScale(player.x)), cy: spring(yScale(player.y))}}>
-                  {(props) => (
-                    <circle {...circleProps} {...props} />
-                  )}
-                </Motion>
+                <circle {...circleProps} />
               )
             })}
           </g>

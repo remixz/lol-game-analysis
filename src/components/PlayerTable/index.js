@@ -1,5 +1,4 @@
 import React from 'react'
-import { Motion, spring } from 'react-motion'
 
 // @TODO - add summoner spells? not hard, but not sure if it's useful when can't get cooldown data
 /**
@@ -84,15 +83,11 @@ class PlayerTable extends React.Component {
                 <div className='player-details float-left'>
                   <div className='player-name'> {player.summonerName} </div>
                   <div className='player-health'>
-                    <Motion style={{width: spring((player.h / player.maxHealth) * 100)}}>
-                      {(style) => (<div className='health-bar' style={{ width: style.width + '%'}}></div>)}
-                    </Motion>
+                    <div className='health-bar' style={{ width: (player.h / player.maxHealth) * 100 + '%'}}></div>
                     <span className='health-text'> {player.h} / {player.maxHealth} </span>
                   </div>
                   <div className='player-health'>
-                    <Motion style={{width: spring((player.p / player.maxPower) * 100)}}>
-                      {(style) => (<div className='health-bar mana-bar' style={{ width: style.width + '%'}}></div>)}
-                    </Motion>
+                    <div className='health-bar mana-bar' style={{ width: (player.p / player.maxPower) * 100 + '%'}}></div>
                     <span className='health-text'> {player.p} / {player.maxPower} </span>
                   </div>
                   <div className='player-items'>

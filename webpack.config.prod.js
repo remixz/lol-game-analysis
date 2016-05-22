@@ -11,7 +11,7 @@ const Match = require('./src/views/match').default
 let config = getConfig({
   in: 'src/app.js',
   out: 'public',
-  clearBeforeBuild: '!(data|img)',
+  clearBeforeBuild: '!(matches|img)',
   html (context) {
     let title = 'League of Legends Interactive Timeline'
     function generateHtml (view) {

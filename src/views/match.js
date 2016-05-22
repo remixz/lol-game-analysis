@@ -86,7 +86,7 @@ class Match extends React.Component {
             <option value='10'>10x</option>
           </select>
         </div>
-        <Minimap data={this.state.selectedGameData} />
+        <Minimap data={this.state.selectedGameData} seeking={this.state.timer !== null} speed={1000 / parseInt(this.state.timerSpeed)} />
         <PlayerTable data={this.state.selectedGameData} />
       </div>
     )

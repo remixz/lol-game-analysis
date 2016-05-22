@@ -58,6 +58,7 @@
 .player-table .player-details .health-bar {
   background-color: #1cb841;
   height: 15px;
+  transition: width 0.2s;
 }
 
 .player-table .player-details .mana-bar {

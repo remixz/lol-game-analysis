@@ -3,6 +3,10 @@
   margin: 0 auto;
 }
 
+.minimap .player {
+  transition: transform 1s linear;
+}
+
 .minimap .player-dead {
   opacity: 0.4;
 }
