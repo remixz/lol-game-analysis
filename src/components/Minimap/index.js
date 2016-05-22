@@ -1,5 +1,5 @@
 import React from 'react'
-import { scaleLinear } from 'd3-scale'
+import scaleLinear from 'simple-linear-scale'
 
 const SUMMONERS_RIFT_DOMAIN = {
   min: {x: -120, y: -120},
@@ -7,13 +7,8 @@ const SUMMONERS_RIFT_DOMAIN = {
 }
 const MINIMAP_SIZE = { width: 512, height: 512 }
 
-let xScale = scaleLinear()
-  .domain([SUMMONERS_RIFT_DOMAIN.min.x, SUMMONERS_RIFT_DOMAIN.max.x])
-  .range([0, MINIMAP_SIZE.width])
-
-let yScale = scaleLinear()
-  .domain([SUMMONERS_RIFT_DOMAIN.min.y, SUMMONERS_RIFT_DOMAIN.max.y])
-  .range([MINIMAP_SIZE.height, 0])
+let xScale = scaleLinear([SUMMONERS_RIFT_DOMAIN.min.x, SUMMONERS_RIFT_DOMAIN.max.x], [0, MINIMAP_SIZE.width])
+let yScale = scaleLinear([SUMMONERS_RIFT_DOMAIN.min.y, SUMMONERS_RIFT_DOMAIN.max.y], [MINIMAP_SIZE.height, 0])
 
 class Minimap extends React.Component {
   render () {
