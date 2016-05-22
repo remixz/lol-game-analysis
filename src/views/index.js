@@ -36,7 +36,7 @@ class IndexView extends Component {
   render () {
     return (
       <div className='index-view'>
-        <h1> League Game Visualizer </h1>
+        <h1> League Interactive Timeline </h1>
         <div className='msi-box'>
           <p> Looking for CLG vs SKT - Game 1 at MSI 2016? <strong><Link to='/match/TRLT3-70046'>Click here!</Link></strong> </p>
         </div>

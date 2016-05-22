@@ -5,7 +5,7 @@ let config = getConfig({
   out: 'public',
   html (context) {
     let template = context.defaultTemplate({
-      title: 'League Game Visualizer'
+      title: 'League Interactive Timeline'
     })
     return {
       'index.html': template
