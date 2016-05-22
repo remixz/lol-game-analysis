@@ -10,8 +10,8 @@ import Match from './views/match'
 render((
   <Router history={browserHistory}>
     <Route path='/' component={App}>
-      <IndexRoute component={Index}></IndexRoute>
-      <Route path='/match/:id' component={Match}></Route>
+      <IndexRoute component={Index} />
+      <Route path='/match/:id' component={Match} />
     </Route>
   </Router>
 ), document.getElementById('root'))

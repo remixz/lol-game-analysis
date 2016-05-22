@@ -55,7 +55,7 @@ class Minimap extends React.Component {
                 style: {
                   fill: `url(#player-portrait-${id})`,
                   transform: `translate(${xScale(player.x)}px, ${yScale(player.y)}px)`,
-                  transitionDuration: (this.props.seeking ? `${this.props.speed}ms` : `0ms`)
+                  transitionDuration: (this.props.seeking ? `${this.props.speed}ms` : '0ms')
                 }
               }
 

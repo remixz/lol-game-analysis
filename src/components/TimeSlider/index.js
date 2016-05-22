@@ -18,7 +18,7 @@ class TimeSlider extends React.Component {
     let range = { min, max }
     let formatter = { to: msToGame }
 
-    return <div className='time-slider'><Slider ref={(c) => this._el = c} range={range} start={[start]} step={1000} tooltips={[formatter]} onSlide={this.props.onSlide} /></div>
+    return <div className='time-slider'><Slider ref={(c) => { this._el = c }} range={range} start={[start]} step={1000} tooltips={[formatter]} onSlide={this.props.onSlide} /></div>
   }
 }
 

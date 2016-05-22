@@ -83,11 +83,11 @@ class PlayerTable extends React.Component {
                 <div className='player-details float-left'>
                   <div className='player-name'> {player.summonerName} </div>
                   <div className='player-health'>
-                    <div className='health-bar' style={{ width: (player.h / player.maxHealth) * 100 + '%'}}></div>
+                    <div className='health-bar' style={{ width: (player.h / player.maxHealth) * 100 + '%' }}></div>
                     <span className='health-text'> {player.h} / {player.maxHealth} </span>
                   </div>
                   <div className='player-health'>
-                    <div className='health-bar mana-bar' style={{ width: (player.p / player.maxPower) * 100 + '%'}}></div>
+                    <div className='health-bar mana-bar' style={{ width: (player.p / player.maxPower) * 100 + '%' }}></div>
                     <span className='health-text'> {player.p} / {player.maxPower} </span>
                   </div>
                   <div className='player-items'>

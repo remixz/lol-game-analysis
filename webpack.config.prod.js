@@ -1,6 +1,5 @@
 require('babel-core/register')
 
-const fs = require('fs')
 const getConfig = require('hjs-webpack')
 const React = require('react')
 const ReactDOMServer = require('react-dom/server')
