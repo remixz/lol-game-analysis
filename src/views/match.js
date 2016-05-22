@@ -110,12 +110,14 @@ class Match extends React.Component {
   }
 
   render () {
-    if (this.state.notFound) return (
-      <div className='not-found'>
-        <h1> Game Not Found </h1>
-        <p> The timeline data for this game couldn't be found. It's likely that the timeline data wasn't exported for this match, either because it was a match that happened before this tool was created, or because the tournament didn't export this data. <Link to='/'>Visit the homepage</Link> to see which tournaments are supported.</p>
-      </div>
-    )
+    if (this.state.notFound) {
+      return (
+        <div className='not-found'>
+          <h1> Game Not Found </h1>
+          <p> The timeline data for this game couldn't be found. It's likely that the timeline data wasn't exported for this match, either because it was a match that happened before this tool was created, or because the tournament didn't export this data. <Link to='/'>Visit the homepage</Link> to see which tournaments are supported.</p>
+        </div>
+      )
+    }
 
     let { game } = this.state
     if (game.length === 0) return (<h1> Loading game data... </h1>)

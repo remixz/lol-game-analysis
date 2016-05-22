@@ -50,7 +50,7 @@ class IndexView extends Component {
           </div>
           <form className='pure-form' onSubmit={this.onSubmit.bind(this)}>
             <h2> Enter URL: </h2>
-            {this.state.message !== null ? <p className='error-message'>Error: {this.state.message}</p> : null }
+            {this.state.message !== null ? <p className='error-message'>Error: {this.state.message}</p> : null}
             <input type='text' placeholder='Match History URL' value={this.state.matchHistory} onChange={this.onChange.bind(this)} />
             <input type='submit' className='pure-button pure-button-primary' value='View Timeline' />
           </form>
