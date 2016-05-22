@@ -1,7 +1,6 @@
 import React from 'react'
+import { roundToDecimal } from '../../utils/round'
 
-// @TODO - add summoner spells? not hard, but not sure if it's useful when can't get cooldown data
-/**
 const SUMMONER_IDS = {
   '1': 'SummonerBoost',
   '3': 'SummonerExhaust',
@@ -13,7 +12,6 @@ const SUMMONER_IDS = {
   '14': 'SummonerDot',
   '21': 'SummonerBarrier'
 }
-*/
 
 const TRINKET_IDS = [3340, 3341, 3363, 3364]
 function filterItems (items, name) {
@@ -26,7 +24,7 @@ function filterItems (items, name) {
       trinket = item
       return
     }
-    if (name === 'CLG Huhi' && item === 3111) return // he did not buy this item ever, but the riot data has it for some reason. only case where this happened though, so can make exception
+    if (name === 'CLG Huhi' && item === 3111 && window.Config.ddragon.indexOf('6.8.1') > -1) return // he did not buy this item ever, but the riot data has it for some reason. only case where this happened though, so can make exception
     if (uniqs.indexOf(item) === -1) uniqs.push(item)
   })
 
@@ -35,7 +33,7 @@ function filterItems (items, name) {
   uniqs.forEach((item) => {
     els.push((
       <div key={item} className={`item-icon float-left ${TRINKET_IDS.indexOf(item) > -1 ? 'item-icon-trinket' : ''}`}>
-        <img src={`//ddragon.leagueoflegends.com/cdn/6.8.1/img/item/${item}.png`} />
+        <img src={`${window.Config.ddragon}/img/item/${item}.png`} />
       </div>
     ))
   })
@@ -46,15 +44,17 @@ function filterItems (items, name) {
 class PlayerTable extends React.Component {
   render () {
     let { data } = this.props
-    data.teamStats['100'].teamDamageToChampions = 0
-    data.teamStats['200'].teamDamageToChampions = 0
+    data.teamStats['100'].totalDamageToChampions = 0
+    data.teamStats['100'].totalGold = 0
+    data.teamStats['100'].playersKilled = 0
+    data.teamStats['200'].totalDamageToChampions = 0
+    data.teamStats['200'].totalGold = 0
+    data.teamStats['200'].playersKilled = 0
     Object.keys(data.playerStats).forEach((key) => {
       let player = data.playerStats[key]
-      if (parseInt(key, 10) > 5) {
-        data.teamStats['200'].teamDamageToChampions += player.tdc
-      } else {
-        data.teamStats['100'].teamDamageToChampions += player.tdc
-      }
+      data.teamStats[String(player.teamId)].totalDamageToChampions += player.tdc
+      data.teamStats[String(player.teamId)].totalGold += player.tg
+      data.teamStats[String(player.teamId)].playersKilled += player.kills
     })
 
     let bluePlayers = []
@@ -74,11 +74,23 @@ class PlayerTable extends React.Component {
 
       return (
         <ul className='float-left'>
+          <li className={`team-stats team-${teamId}`}>
+            <span className='team-kills'>{team.playersKilled}</span>
+            <span className='team-gold'>Gold: {roundToDecimal(team.totalGold / 1000, -1)}k</span>
+            <span className='team-barons'>Barons: {team.baronsKilled}</span>
+            <span className='team-dragons'>Dragons: {team.dragonsKilled}</span>
+            <span className='team-towers'>Towers: {team.towersKilled}</span>
+          </li>
           {players.map((player) => {
             return (
               <li key={player.participantId}>
                 <div className='player-icon float-left'>
-                  <img src={`//ddragon.leagueoflegends.com/cdn/6.8.1/img/champion/${player.championName}.png`} />
+                  <img src={`${window.Config.ddragon}/img/champion/${player.championName}.png`} />
+                  <span className='player-level'>{player.level}</span>
+                  <div className='player-summoners'>
+                    <img src={`${window.Config.ddragon}/img/spell/${SUMMONER_IDS[String(player.summonersSpell1)]}.png`} />
+                    <img src={`${window.Config.ddragon}/img/spell/${SUMMONER_IDS[String(player.summonersSpell2)]}.png`} />
+                  </div>
                 </div>
                 <div className='player-details float-left'>
                   <div className='player-name'> {player.summonerName} </div>
@@ -98,7 +110,7 @@ class PlayerTable extends React.Component {
                   {player.kills} / {player.deaths} / {player.assists} <br />
                   {player.mk} CS / {Math.round(player.mk / (data.t / 1000 / 60) * 10)} CS per 10 <br />
                   {player.cg} Gold / {player.tg} Total Gold <br />
-                  {team.teamDamageToChampions !== 0 ? Math.round(player.tdc / team.teamDamageToChampions * 100) : 0}% of Team's Damage
+                  {team.totalDamageToChampions !== 0 ? Math.round(player.tdc / team.totalDamageToChampions * 100) : 0}% of Team's Damage
                 </div>
               </li>
             )

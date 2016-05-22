@@ -33,7 +33,7 @@ class Minimap extends React.Component {
 
               return (
                 <pattern key={id} id={`player-portrait-${id}`} width={32} height={32}>
-                  <image xlinkHref={`//ddragon.leagueoflegends.com/cdn/6.8.1/img/champion/${player.championName}.png`} width={34} height={34} x={-1} y={-1} />
+                  <image xlinkHref={`${window.Config.ddragon}/img/champion/${player.championName}.png`} width={34} height={34} x={-1} y={-1} />
                 </pattern>
               )
             })}

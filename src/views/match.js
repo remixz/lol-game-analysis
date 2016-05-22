@@ -12,7 +12,8 @@ class Match extends React.Component {
       game: [],
       selectedGameData: {},
       timer: null,
-      timerSpeed: '1'
+      timerSpeed: 1000,
+      finished: false
     }
   }
 
@@ -21,17 +22,26 @@ class Match extends React.Component {
     let closest = this.state.game.reduce((prev, curr) => (Math.abs(curr.t - time) < Math.abs(prev.t - time) ? curr : prev))
 
     this.setState({
-      selectedGameData: closest
+      selectedGameData: closest,
+      finished: (this.state.game.indexOf(closest) + 1 === this.state.game.length)
     })
   }
 
   _createTimer (speed) {
     let timer = setInterval(() => {
       let id = this.state.game.indexOf(this.state.selectedGameData)
+      if (id + 1 === this.state.game.length) {
+        clearInterval(timer)
+        return this.setState({
+          timer: null,
+          finished: true
+        })
+      }
+
       this.setState({
         selectedGameData: this.state.game[id + 1]
       })
-    }, 1000 / parseInt(speed))
+    }, speed)
     this.setState({ timer })
   }
 
@@ -42,6 +52,12 @@ class Match extends React.Component {
         timer: null
       })
     } else {
+      if (this.state.finished) {
+        this.setState({
+          finished: false,
+          selectedGameData: this.state.game[0]
+        })
+      }
       this._createTimer(this.state.timerSpeed)
     }
   }
@@ -67,10 +83,21 @@ class Match extends React.Component {
       json: true
     }, (err, resp, game) => {
       if (err) throw err
+      let nameInfo = game[0].generatedName.split('|')
+
+      // @TODO - figure out way to determine version properly...
+      // new games are gonna be 6.10+, the icons shouldn't change much during the season
+      // and shouldn't have any removed items, so just manually updating in src/app.js
+      // should work... for this one game before midseason, we'll just use the patch played on
+      // yeah this is a mess lol
+      if (this.props.params.id === 'TRLT3-70046') {
+        window.Config.ddragon = '//ddragon.leagueoflegends.com/cdn/6.8.1'
+      }
 
       this.setState({
         game,
-        selectedGameData: game[0]
+        selectedGameData: game[0],
+        gameTitle: `${nameInfo[0]} vs ${nameInfo[1]} - Game ${nameInfo[2].split('G')[1]}`
       })
     })
   }
@@ -81,23 +108,23 @@ class Match extends React.Component {
     let min = game[0].t
     let max = game[game.length - 1].t
     let start = this.state.selectedGameData.t
-    let nameInfo = game[0].generatedName.split('|')
+    let playButtonText = (this.state.finished ? 'Replay' : (this.state.timer !== null ? 'Pause' : 'Play'))
 
     return (
       <div className='overview'>
-        <h1> {nameInfo[0]} vs {nameInfo[1]} - Game {nameInfo[2].split('G')[1]} </h1>
+        <h1>{this.state.gameTitle}</h1>
         <TimeSlider seeking={this.state.timer !== null} min={min} max={max} start={start} onSlide={this.onSliderChange.bind(this)} />
-        <button className='pure-button pure-button-primary play-button' onClick={this.toggleTimer.bind(this)}>{this.state.timer !== null ? 'Pause' : 'Play'}</button>
+        <button className='pure-button pure-button-primary play-button' onClick={this.toggleTimer.bind(this)}>{playButtonText}</button>
         <div className='pure-form speed-form'>
           <label for='speed-select'>Playback Speed: </label>
           <select id='speed-select' value={this.state.timerSpeed} onChange={this.changeSpeed.bind(this)}>
-            <option value='1'>1x</option>
-            <option value='2'>2x</option>
-            <option value='5'>5x</option>
-            <option value='10'>10x</option>
+            <option value={1000}>1x</option>
+            <option value={500}>2x</option>
+            <option value={200}>5x</option>
+            <option value={100}>10x</option>
           </select>
         </div>
-        <Minimap data={this.state.selectedGameData} seeking={this.state.timer !== null} speed={1000 / parseInt(this.state.timerSpeed)} />
+        <Minimap data={this.state.selectedGameData} seeking={this.state.timer !== null} speed={this.state.timerSpeed} />
         <PlayerTable data={this.state.selectedGameData} />
       </div>
     )

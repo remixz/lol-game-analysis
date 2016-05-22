@@ -7,6 +7,10 @@ import App from './views/app'
 import Index from './views/index'
 import Match from './views/match'
 
+window.Config = {
+  ddragon: '//ddragon.leagueoflegends.com/cdn/6.10.1'
+}
+
 render((
   <Router history={browserHistory}>
     <Route path='/' component={App}>

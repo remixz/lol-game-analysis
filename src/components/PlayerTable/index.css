@@ -16,10 +16,55 @@
   border-bottom: 0;
 }
 
-.player-table .player-icon img {
+.player-table .team-stats {
+  height: 50px;
+}
+
+.player-table .team-stats span {
+  margin-right: 15px;
+  padding-top: 10px;
+  float: left;
+}
+
+.player-table .team-stats.team-100 span {
+  float: right;
+}
+
+.player-table .team-stats .team-kills {
+  padding-top: 5px;
+  font-size: 24px;
+}
+
+.player-table .player-level {
+  color: #fff;
+  text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
+  position: relative;
+  top: -25px;
+  left: 5px;
+}
+
+.player-table .player-icon {
+  width: 64px;
+  height: 64px;
+}
+
+.player-table .player-icon > img {
   width: 64px;
   height: 64px;
   margin-top: 12px;
+}
+
+.player-table .player-summoners {
+  width: 44px;
+  height: 20px;
+  margin-top: -17px;
+  margin-left: 10px;
+}
+
+.player-table .player-summoners img {
+  width: 20px;
+  height: 20px;
+  margin-right: 2px;
 }
 
 .player-table .player-name {
