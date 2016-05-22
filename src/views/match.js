@@ -12,8 +12,7 @@ class Match extends React.Component {
       game: [],
       selectedGameData: {},
       timer: null,
-      timerSpeed: '1',
-      loadingProgress: 0
+      timerSpeed: '1'
     }
   }
 
@@ -61,8 +60,8 @@ class Match extends React.Component {
   }
 
   componentDidMount () {
-    let host = (process.env.NODE_ENV === 'production' ? '//timeline-cdn.bruggie.com/matches' : '/matches')
-    let req = xhr({
+    let host = (process.env.NODE_ENV === 'production' ? 'https://timeline-cdn.bruggie.com/matches' : '/matches')
+    xhr({
       method: 'GET',
       uri: `${host}/${this.props.params.id}.json`,
       json: true
@@ -74,24 +73,11 @@ class Match extends React.Component {
         selectedGameData: game[0]
       })
     })
-
-    req.addEventListener('progress', (ev) => {
-      this.setState({
-        loadingProgress: (ev.loaded / ev.total) * 100
-      })
-    })
   }
 
   render () {
     let { game } = this.state
-    if (game.length === 0) return (
-      <div className='loading-view'>
-        <h1> Loading game data... ({Math.round(this.state.loadingProgress)}%) </h1>
-        <div className='loading-bar'>
-          <div className='progress' style={{ width: this.state.loadingProgress + '%' }}></div>
-        </div>
-      </div>
-    )
+    if (game.length === 0) return (<h1> Loading game data... </h1>)
     let min = game[0].t
     let max = game[game.length - 1].t
     let start = this.state.selectedGameData.t
