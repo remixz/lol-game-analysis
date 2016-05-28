@@ -9,10 +9,16 @@ import PlayerTable from '../components/PlayerTable'
 class Match extends React.Component {
   constructor (props) {
     super(props)
+    let game = [{
+      playerStats: {},
+      teamStats: { '100': {}, '200': {} },
+      t: 0
+    }]
     this.state = {
-      game: [],
+      game,
+      loading: true,
       notFound: false,
-      selectedGameData: {},
+      selectedGameData: game[0],
       timer: null,
       timerSpeed: 1000,
       finished: false
@@ -103,6 +109,7 @@ class Match extends React.Component {
 
       this.setState({
         game,
+        loading: false,
         selectedGameData: game[0],
         gameTitle: `${nameInfo[0]} vs ${nameInfo[1]} - Game ${nameInfo[2].split('G')[1]}`
       })
@@ -128,7 +135,7 @@ class Match extends React.Component {
 
     return (
       <div className='overview'>
-        <h1>{this.state.gameTitle}</h1>
+        <h1>{this.state.loading ? 'Loading game data...' : this.state.gameTitle}</h1>
         <TimeSlider seeking={this.state.timer !== null} min={min} max={max} start={start} onSlide={this.onSliderChange.bind(this)} />
         <button className='pure-button pure-button-primary play-button' onClick={this.toggleTimer.bind(this)}>{playButtonText}</button>
         <div className='pure-form speed-form'>

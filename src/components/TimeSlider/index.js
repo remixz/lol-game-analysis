@@ -1,8 +1,8 @@
-import React from 'react'
+import React, { Component } from 'react'
 import Slider from 'react-nouislider'
 import { msToGame } from '../../utils/format-game-time'
 
-class TimeSlider extends React.Component {
+class TimeSlider extends Component {
   shouldComponentUpdate (nextProps) {
     return nextProps.max !== this.props.max
   }
@@ -16,9 +16,10 @@ class TimeSlider extends React.Component {
   render () {
     let { min, max, start } = this.props
     let range = { min, max }
+    if (range.max === 0) range.max = 1 // min and max can't be the same, this only happens when loading the data
     let formatter = { to: msToGame }
 
-    return <div className='time-slider'><Slider ref={(c) => { this._el = c }} range={range} start={[start]} step={1000} tooltips={[formatter]} onSlide={this.props.onSlide} /></div>
+    return <div className='time-slider'><Slider ref={(c) => { this._el = c }} range={range} start={[start]} step={1000} tooltips={[formatter]} onSlide={this.props.onSlide} disabled={range.max === 1} /></div>
   }
 }
 
