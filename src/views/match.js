@@ -11,7 +11,7 @@ class Match extends React.Component {
     super(props)
     let game = [{
       playerStats: {},
-      teamStats: { '100': {}, '200': {} },
+      teamStats: { '100': { teamId: 100 }, '200': { teamId: 200 } },
       t: 0
     }]
     this.state = {
