@@ -29,11 +29,11 @@ function filterItems (items, name) {
 
   uniqs.push(trinket)
 
-  let els = uniqs.map((item) => {
+  let els = uniqs.map((item) => (
     <div key={item} className={`item-icon float-left ${TRINKET_IDS.indexOf(item) > -1 ? 'item-icon-trinket' : ''}`}>
       <img src={`${window.Config.ddragon}/img/item/${item}.png`} />
     </div>
-  })
+  ))
 
   return els
 }
