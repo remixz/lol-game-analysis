@@ -72,10 +72,21 @@ function connectToSocket () {
         console.log(`event received for game ${games[key].id} at time ${formatTime(game.t)}`)
 
         let isComplete = (game.gameComplete || false)
+        games[key].obj = _.merge(games[key].obj, game)
+        // special item logic -- the item array isn't a diff, it's the full items the player has
+        // lodash.merge tries to merge arrays though, when we just want to outright replace it
+        if (game.playerStats) {
+          Object.keys(game.playerStats).forEach((id) => {
+            let player = game.playerStats[id]
+
+            if (player.items) {
+              games[key].obj.playerStats[id].items = player.items
+            }
+          })
+        }
+
         // don't bother writing the data for the first frames where player pos are 0
-        let merged = _.merge(games[key].obj, game)
-        if (merged.playerStats['1'].x !== 0) {
-          games[key].obj = merged
+        if (games[key].obj.playerStats['1'].x !== 0) {
           games[key].stream.write(JSON.stringify(games[key].obj) + (isComplete ? '\n' : ',\n'))
         }
 
