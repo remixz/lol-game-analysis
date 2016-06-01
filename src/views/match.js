@@ -126,6 +126,7 @@ class Match extends Component {
       }, (err, resp, body) => {
         if (err) throw err
 
+        if (resp.statusCode !== 200 || body.status !== 'ok') return // API might have gone down or just something went wrong... events aren't super important so we can just bail
         this.setState({
           events: body.events
         })
