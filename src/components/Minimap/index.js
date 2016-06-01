@@ -39,7 +39,7 @@ function Minimap (props) {
     <div className='minimap'>
       <svg width={MINIMAP_SIZE.width} height={MINIMAP_SIZE.height}>
         <image
-          xlinkHref='/img/minimap.png'
+          xlinkHref='/img/minimap.jpg'
           x={0}
           y={0}
           width={MINIMAP_SIZE.width}
