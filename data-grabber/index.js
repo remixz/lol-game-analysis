@@ -27,11 +27,16 @@ function connectToSocket () {
     // let ws = new WebSocket(`ws://localhost:8080`) // used for simulation of livestats server
 
     ws.on('close', (code, message) => {
-      console.log('weboscket has closed. info:')
+      console.log(`websocket has closed at ${new Date().toISOString()}. info:`)
       console.log(`  code: ${code}`)
       console.log(`  message: ${message}`)
       console.log('reconnecting...')
       connectToSocket()
+    })
+
+    ws.on('error', (err) => {
+      console.log('error reported:')
+      console.log(err)
     })
 
     ws.on('message', (msg) => {
