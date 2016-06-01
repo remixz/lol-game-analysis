@@ -29,7 +29,7 @@ class IndexView extends Component {
       return this.setState({ message })
     }
 
-    let id = mh.split('#match-details/')[1].split('?')[0].replace('/', '-')
+    let id = mh.split('#match-details/')[1].replace('/', '-')
     this.props.router.push(`/match/${id}`)
   }
 
