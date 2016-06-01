@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { Component } from 'react'
 import xhr from 'xhr'
 import { Link } from 'react-router'
 
@@ -6,7 +6,7 @@ import TimeSlider from '../components/TimeSlider'
 import Minimap from '../components/Minimap'
 import PlayerTable from '../components/PlayerTable'
 
-class Match extends React.Component {
+class Match extends Component {
   constructor (props) {
     super(props)
     let game = [{
@@ -16,6 +16,7 @@ class Match extends React.Component {
     }]
     this.state = {
       game,
+      events: [],
       loading: true,
       notFound: false,
       selectedGameData: game[0],
@@ -105,6 +106,7 @@ class Match extends React.Component {
       // yeah this is a mess lol
       if (this.props.params.id === 'TRLT3-70046') {
         window.Config.ddragon = '//ddragon.leagueoflegends.com/cdn/6.8.1'
+        this.props.location.query.gameHash = '7c49caa814dfa403' // for those old URLs :)
       }
 
       this.setState({
@@ -112,6 +114,21 @@ class Match extends React.Component {
         loading: false,
         selectedGameData: game[0],
         gameTitle: `${nameInfo[0]} vs ${nameInfo[1]} - Game ${nameInfo[2].split('G')[1]}`
+      })
+
+      // unless the user is instantly clicking on the timeline, they'll never notice this isn't loaded in immediately
+      // even if they do... it'll take, like, 1 second at most to load the data
+      let splitId = this.props.params.id.split('-')
+      xhr({
+        method: 'GET',
+        uri: `https://lol-mh-proxy.now.sh/game/${splitId[0]}/${splitId[1]}?gameHash=${this.props.location.query.gameHash}`,
+        json: true
+      }, (err, resp, body) => {
+        if (err) throw err
+
+        this.setState({
+          events: body.events
+        })
       })
     })
   }
@@ -147,7 +164,7 @@ class Match extends React.Component {
             <option value={100}>10x</option>
           </select>
         </div>
-        <Minimap data={this.state.selectedGameData} seeking={this.state.timer !== null} speed={this.state.timerSpeed} />
+        <Minimap data={this.state.selectedGameData} events={this.state.events} seeking={this.state.timer !== null} speed={this.state.timerSpeed} />
         <PlayerTable data={this.state.selectedGameData} />
       </div>
     )

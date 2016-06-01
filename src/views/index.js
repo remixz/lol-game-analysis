@@ -38,7 +38,7 @@ class IndexView extends Component {
       <div className='index-view'>
         <h1> League Interactive Timeline </h1>
         <div className='msi-box'>
-          <p> Looking for CLG vs SKT - Game 1 at MSI 2016? <strong><Link to='/match/TRLT3-70046' href='/match/TRLT3-70046'>Click here!</Link></strong> </p>
+          <p> Looking for CLG vs SKT - Game 1 at MSI 2016? <strong><Link to='/match/TRLT3-70046?gameHash=7c49caa814dfa403' href='/match/TRLT3-70046?gameHash=7c49caa814dfa403'>Click here!</Link></strong> </p>
         </div>
 
         <div className='info-box'>

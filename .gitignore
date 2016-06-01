@@ -4,3 +4,5 @@ public/*
 !public/.surgeignore
 !public/img
 data-grabber/games/
+mh-proxy/timelines/
+mh-proxy/compiled.js

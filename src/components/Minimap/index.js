@@ -6,12 +6,34 @@ const SUMMONERS_RIFT_DOMAIN = {
   max: {x: 14870, y: 14980}
 }
 const MINIMAP_SIZE = { width: 512, height: 512 }
+const IMAGE_SIZES = {
+  tower: { width: 24, height: 28 },
+  inhibitor: { width: 26, height: 26 },
+  dragon: { width: 26, height: 22 },
+  baron: { width: 26, height: 18 }
+}
 
 let xScale = scaleLinear([SUMMONERS_RIFT_DOMAIN.min.x, SUMMONERS_RIFT_DOMAIN.max.x], [0, MINIMAP_SIZE.width])
 let yScale = scaleLinear([SUMMONERS_RIFT_DOMAIN.min.y, SUMMONERS_RIFT_DOMAIN.max.y], [MINIMAP_SIZE.height, 0])
 
+function BuildingEventSprite (event, i) {
+  let buildingType = (event.buildingType === 'TOWER_BUILDING' ? 'tower' : 'inhibitor')
+  let img = `/img/${buildingType}_${event.teamId}.png`
+  let { width, height } = IMAGE_SIZES[buildingType]
+  return <image key={i} xlinkHref={img} x={xScale(event.position.x) - (width / 2)} y={yScale(event.position.y) - (height / 2)} width={width} height={height} />
+}
+
+function MonsterEventSprite (event, i) {
+  if (event.monsterType === 'RIFTHERALD') return
+  let monsterType = (event.monsterType === 'DRAGON' ? 'dragon' : 'baron')
+  let teamId = (event.killerId > 5 ? 200 : 100)
+  let img = `/img/${monsterType}_${teamId}.png`
+  let { width, height } = IMAGE_SIZES[monsterType]
+  return <image key={i} xlinkHref={img} x={xScale(event.position.x) - (width / 2)} y={yScale(event.position.y) - (height / 2)} width={width} height={height} />
+}
+
 function Minimap (props) {
-  let { data } = props
+  let { data, events } = props
 
   return (
     <div className='minimap'>
@@ -33,6 +55,15 @@ function Minimap (props) {
             )
           })}
         </defs>
+        <g>
+          {events.map((event, i) => {
+            if (event.timestamp > data.t) return null
+
+            if (event.type === 'BUILDING_KILL') return BuildingEventSprite(event, i)
+            if (event.type === 'ELITE_MONSTER_KILL') return MonsterEventSprite(event, i)
+            return null
+          })}
+        </g>
         <g>
           {Object.keys(data.playerStats).sort((a, b) => {
             let playerA = data.playerStats[a]
