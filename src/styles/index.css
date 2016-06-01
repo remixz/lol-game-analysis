@@ -89,6 +89,12 @@ h1, h2 {
   right: 0;
 }
 
+.mh-button {
+  font-size: 16px;
+  font-weight: normal;
+  margin-top: -4px;
+}
+
 .speed-form {
   float: right;
 }

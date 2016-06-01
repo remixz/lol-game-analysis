@@ -16,6 +16,7 @@ class Match extends Component {
     }]
     this.state = {
       game,
+      mhUrl: '',
       events: [],
       loading: true,
       notFound: false,
@@ -109,8 +110,10 @@ class Match extends Component {
         this.props.location.query.gameHash = '7c49caa814dfa403' // for those old URLs :)
       }
 
+      let splitId = this.props.params.id.split('-')
+      let mhUrl = `http://matchhistory.na.leagueoflegends.com/en/#match-details/${splitId[0]}/${splitId[1]}?gameHash=${this.props.location.query.gameHash}`
       this.setState({
-        game,
+        game, mhUrl,
         loading: false,
         selectedGameData: game[0],
         gameTitle: `${nameInfo[0]} vs ${nameInfo[1]} - Game ${nameInfo[2].split('G')[1]}`
@@ -118,7 +121,6 @@ class Match extends Component {
 
       // unless the user is instantly clicking on the timeline, they'll never notice this isn't loaded in immediately
       // even if they do... it'll take, like, 1 second at most to load the data
-      let splitId = this.props.params.id.split('-')
       xhr({
         method: 'GET',
         uri: `https://lol-mh-proxy.now.sh/game/${splitId[0]}/${splitId[1]}?gameHash=${this.props.location.query.gameHash}`,
@@ -153,7 +155,7 @@ class Match extends Component {
 
     return (
       <div className='overview'>
-        <h1>{this.state.loading ? 'Loading game data...' : this.state.gameTitle}</h1>
+        <h1>{this.state.loading ? 'Loading game data...' : this.state.gameTitle} {this.state.loading ? null : <a href={this.state.mhUrl} className='pure-button pure-button-primary mh-button' target='_blank'> View Match History </a>}</h1>
         <TimeSlider seeking={this.state.timer !== null} min={min} max={max} start={start} onSlide={this.onSliderChange.bind(this)} />
         <button className='pure-button pure-button-primary play-button' onClick={this.toggleTimer.bind(this)}>{playButtonText}</button>
         <div className='pure-form speed-form'>
