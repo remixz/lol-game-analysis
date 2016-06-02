@@ -42,7 +42,7 @@ class IndexView extends Component {
         </div>
 
         <div className='info-box'>
-          <p> This tool automatically creates interactive timelines for competitive League of Legends games across the world. Follow the Esportspedia links below to view a list of timelines available, or enter a match history URL.</p>
+          <p> This tool automatically creates interactive timelines for competitive League of Legends games across the world. Follow the Esportspedia links to choose one of the links in the TL column to view a timeline, or enter a match history URL.</p>
           <div className='esportspedia-links'>
             <h2> Tournaments: </h2>
             <a href='http://lol.esportspedia.com/wiki/League_Championship_Series/North_America/2016_Season/Summer_Season/Match_Details'> NA LCS - Summer 2016 Regular Split </a>
