@@ -3,9 +3,12 @@ const request = require('request')
 const WebSocket = require('ws')
 const fileExists = require('file-exists')
 const _ = require('lodash')
+const bunyan = require('bunyan')
 const gcloud = require('gcloud')({
   projectId: process.env.LOL_TIMELINE_GCLOUD_PROJECT
 })
+
+const log = bunyan.createLogger({ name: 'data-grabber' })
 
 function formatTime (ms) {
   let min = (ms / 1000 / 60) << 0
@@ -19,24 +22,24 @@ let gcs = gcloud.storage()
 let matchesBucket = gcs.bucket(process.env.LOL_TIMELINE_GCLOUD_BUCKET)
 
 function connectToSocket () {
-  console.log('connecting to websocket...')
+  log.info('connecting to websocket...')
   request('http://api.lolesports.com/api/issueToken', { json: true }, (err, res, body) => {
-    if (err) console.error(err)
+    if (err) log.error(err)
 
     let ws = new WebSocket(`ws://livestats.proxy.lolesports.com/stats?jwt=${body.token}`)
     // let ws = new WebSocket(`ws://localhost:8080`) // used for simulation of livestats server
 
     ws.on('close', (code, message) => {
-      console.log(`websocket has closed at ${new Date().toISOString()}. info:`)
-      console.log(`  code: ${code}`)
-      console.log(`  message: ${message}`)
-      console.log('reconnecting...')
+      log.warn('websocket has closed. info:')
+      log.warn(`  code: ${code}`)
+      log.warn(`  message: ${message}`)
+      log.warn('reconnecting...')
       connectToSocket()
     })
 
     ws.on('error', (err) => {
-      console.log('error reported:')
-      console.log(err)
+      log.error('error reported:')
+      log.error(err)
     })
 
     ws.on('message', (msg) => {
@@ -44,16 +47,16 @@ function connectToSocket () {
       try {
         json = JSON.parse(msg)
       } catch (e) {
-        console.log('NON-JSON DATA')
-        console.log(msg)
-        console.error(e)
+        log.warn('NON-JSON DATA')
+        log.warn(msg)
+        log.error(e)
       }
 
       Object.keys(json).forEach((key) => {
         let game = json[key]
 
         if (!games[key]) {
-          console.log(`adding game ${game.realm}-${key}`)
+          log.info(`adding game ${game.realm}-${key}`)
           let filePath = `${process.cwd()}/games/${game.realm}-${key}.json`
           let fileExisted = fileExists(filePath)
           games[key] = {
@@ -69,12 +72,12 @@ function connectToSocket () {
         }
 
         if (games[key].written) {
-          console.log(`finished file already exists for ${games[key].id} -- won't process again`)
+          log.info(`finished file already exists for ${games[key].id} -- won't process again`)
           games[key].stream.destroy()
           return
         }
 
-        console.log(`event received for game ${games[key].id} at time ${formatTime(game.t)}`)
+        log.info(`event received for game ${games[key].id} at time ${formatTime(game.t)}`)
 
         let isComplete = (game.gameComplete || false)
         games[key].obj = _.merge(games[key].obj, game)
@@ -96,7 +99,7 @@ function connectToSocket () {
         }
 
         if (isComplete) {
-          console.log(`finished game ${games[key].id} at time ${formatTime(game.t)}! finishing up...`)
+          log.info(`finished game ${games[key].id} at time ${formatTime(game.t)}! finishing up...`)
 
           games[key].stream.end(']\n', () => {
             games[key].stream.destroy()
@@ -104,17 +107,17 @@ function connectToSocket () {
             let filePath = `${process.cwd()}/games/${games[key].id}.json`
 
             fs.writeFile(filePath + '.finished', '', (err) => {
-              if (err) console.error(err)
+              if (err) log.error(err)
               games[key].written = true
 
-              console.log(`uploading file for ${games[key].id}...`)
+              log.info(`uploading file for ${games[key].id}...`)
               matchesBucket.upload(filePath, {
                 destination: `matches/${games[key].id}.json`,
                 gzip: true,
                 public: true
               }, (err) => {
-                if (err) console.error(err)
-                console.log(`uploaded file for ${games[key].id}!`)
+                if (err) log.error(err)
+                log.info(`uploaded file for ${games[key].id}!`)
               })
             })
           })
