@@ -16,6 +16,7 @@
     "ws": "^1.1.0"
   },
   "scripts": {
-    "start": "forever start --uid=lol-data-grabber -l $PWD/logs/forever.log -o $PWD/logs/out.log -e $PWD/logs/err.log --append index.js"
+    "start": "forever start --uid=lol-data-grabber -l $PWD/logs/forever.log -o $PWD/logs/out.log -e $PWD/logs/err.log --append index.js",
+    "view-logs": "bunyan logs/out.log"
   }
 }
