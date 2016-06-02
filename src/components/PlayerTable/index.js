@@ -28,7 +28,7 @@ function filterItems (items, name) {
     if (uniqs.indexOf(item) === -1) uniqs.push(item)
   })
 
-  uniqs.push(trinket)
+  if (trinket > 0) uniqs.push(trinket) // only add the trinket if we have one
 
   let els = uniqs.map((item) => (
     <div key={item} className={`item-icon float-left ${TRINKET_IDS.indexOf(item) > -1 ? 'item-icon-trinket' : ''}`}>
