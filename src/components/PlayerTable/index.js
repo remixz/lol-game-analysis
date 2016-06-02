@@ -23,6 +23,7 @@ function filterItems (items, name) {
       trinket = item
       return
     }
+    if (item === 0) return // new games seem to have an item id 0 it sends sometimes... whatever, we'll just remove
     if (name === 'CLG Huhi' && item === 3111 && window.Config.ddragon.indexOf('6.8.1') > -1) return // he did not buy this item ever, but the riot data has it for some reason. only case where this happened though, so can make exception
     if (uniqs.indexOf(item) === -1) uniqs.push(item)
   })
