@@ -16,6 +16,7 @@ class Match extends Component {
     }]
     this.state = {
       game,
+      message: '',
       mhUrl: '',
       events: [],
       loading: true,
@@ -119,6 +120,22 @@ class Match extends Component {
         gameTitle: `${nameInfo[0]} vs ${nameInfo[1]} - Game ${nameInfo[2].split('G')[1]}`
       })
 
+      // we do the next two requests in parallel
+      // this one is for a custom message to display, in case something goes wrong
+      // the second is to get the match history timeline for extra info, like monsters and buildings
+      let messagesHost = (process.env.NODE_ENV === 'production' ? 'https://timeline-cdn.bruggie.com/messages' : '/messages')
+      xhr({
+        method: 'GET',
+        uri: `${messagesHost}/${this.props.params.id}.txt`
+      }, (err, resp, text) => {
+        if (err) throw err
+        if (resp.statusCode !== 200) return
+
+        this.setState({
+          message: text
+        })
+      })
+
       // unless the user is instantly clicking on the timeline, they'll never notice this isn't loaded in immediately
       // even if they do... it'll take, like, 1 second at most to load the data
       let mhProxyRoot = (process.env.NODE_ENV === 'production' ? 'https://lol-mh-proxy.now.sh' : 'http://localhost:8081')
@@ -168,6 +185,7 @@ class Match extends Component {
             <option value={100}>10x</option>
           </select>
         </div>
+        {this.state.message !== '' ? <div className='game-message'>{this.state.message}</div> : null}
         <Minimap data={this.state.selectedGameData} events={this.state.events} seeking={this.state.timer !== null} speed={this.state.timerSpeed} />
         <PlayerTable data={this.state.selectedGameData} />
       </div>

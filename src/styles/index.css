@@ -68,6 +68,16 @@ h1, h2 {
   margin-left: 5px;
 }
 
+.game-message {
+  width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+  margin-bottom: 5px;
+  color: #8a6d3b;
+  background-color: #fcf8e3;
+  border-color: #faebcc;
+}
+
 .not-found p {
   width: 800px;
   margin: 0 auto;
