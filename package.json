@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "League game analysis",
   "scripts": {
-    "start": "hjs-dev-server",
+    "start": "hjs-dev-server & cd mh-proxy && node index.js",
     "build": "NODE_ENV=production webpack --config=webpack.config.prod.js",
     "deploy": "npm run build && surge public/ -d timeline.bruggie.com",
     "deploy:staging": "npm run build && surge public/ -d lol-timeline-staging.surge.sh",

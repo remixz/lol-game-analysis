@@ -28,7 +28,7 @@ function fileExists (path) {
 server.get('/game/:region/:id', (req, res, next) => {
   let { region, id, gameHash, types } = req.params
   if (!gameHash) {
-    res.send(503, { status: 'not ok', error: 'missing required query param `gameHash`'})
+    res.send(503, { status: 'not ok', error: 'missing required query param `gameHash`' })
     return next()
   }
   if (!types) types = DEFAULT_TYPES
@@ -53,7 +53,7 @@ server.get('/game/:region/:id', (req, res, next) => {
       if (err) throw err
 
       if (resp.statusCode !== 200) {
-        res.send(resp.statusCode, { status: 'not ok' , error: `riot API returned an error: ${body.errorCode} - ${body.message}` })
+        res.send(resp.statusCode, { status: 'not ok', error: `riot API returned an error: ${body.errorCode} - ${body.message}` })
         return next()
       }
 
@@ -73,5 +73,5 @@ server.get('/game/:region/:id', (req, res, next) => {
 })
 
 server.listen(8081, () => {
-  console.log(`server listening at ${server.url}`);
+  console.log(`mh proxy server listening at ${server.url}`)
 })

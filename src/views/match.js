@@ -121,9 +121,10 @@ class Match extends Component {
 
       // unless the user is instantly clicking on the timeline, they'll never notice this isn't loaded in immediately
       // even if they do... it'll take, like, 1 second at most to load the data
+      let mhProxyRoot = (process.env.NODE_ENV === 'production' ? 'https://lol-mh-proxy.now.sh' : 'http://localhost:8081')
       xhr({
         method: 'GET',
-        uri: `https://lol-mh-proxy.now.sh/game/${splitId[0]}/${splitId[1]}?gameHash=${this.props.location.query.gameHash}`,
+        uri: `${mhProxyRoot}/game/${splitId[0]}/${splitId[1]}?gameHash=${this.props.location.query.gameHash}`,
         json: true
       }, (err, resp, body) => {
         if (err) throw err
