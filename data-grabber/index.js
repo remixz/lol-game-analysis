@@ -54,6 +54,7 @@ function connectToSocket () {
 
       Object.keys(json).forEach((key) => {
         let game = json[key]
+        if (game === null) return
 
         if (!games[key]) {
           log.info(`adding game ${game.realm}-${key}`)
