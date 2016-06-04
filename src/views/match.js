@@ -138,6 +138,7 @@ class Match extends Component {
 
       // unless the user is instantly clicking on the timeline, they'll never notice this isn't loaded in immediately
       // even if they do... it'll take, like, 1 second at most to load the data
+      if (!this.props.location.query.gameHash) return
       let mhProxyRoot = (process.env.NODE_ENV === 'production' ? 'https://lol-mh-proxy.now.sh' : 'http://localhost:8081')
       xhr({
         method: 'GET',
@@ -173,7 +174,7 @@ class Match extends Component {
 
     return (
       <div className='overview'>
-        <h1>{this.state.loading ? 'Loading game data...' : this.state.gameTitle} {this.state.loading ? null : <a href={this.state.mhUrl} className='pure-button pure-button-primary mh-button' target='_blank'> View Match History </a>}</h1>
+        <h1>{this.state.loading ? 'Loading game data...' : this.state.gameTitle} {this.state.loading || !this.props.location.query.gameHash ? null : <a href={this.state.mhUrl} className='pure-button pure-button-primary mh-button' target='_blank'> View Match History </a>}</h1>
         <TimeSlider seeking={this.state.timer !== null} min={min} max={max} start={start} onSlide={this.onSliderChange.bind(this)} />
         <button className='pure-button pure-button-primary play-button' onClick={this.toggleTimer.bind(this)}>{playButtonText}</button>
         <div className='pure-form speed-form'>
