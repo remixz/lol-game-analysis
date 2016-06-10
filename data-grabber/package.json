@@ -8,10 +8,13 @@
   "license": "MIT",
   "dependencies": {
     "bunyan": "^1.8.1",
+    "csv-stringify": "^1.0.4",
+    "express": "^4.13.4",
     "file-exists": "^1.0.0",
     "forever": "^0.15.1",
     "gcloud": "^0.34.0",
     "lodash": "^4.12.0",
+    "moment": "^2.13.0",
     "request": "^2.72.0",
     "ws": "^1.1.0"
   },

@@ -4,5 +4,6 @@ public/*
 !public/.surgeignore
 !public/img
 data-grabber/games/
+data-grabber/csv/
 mh-proxy/timelines/
 mh-proxy/compiled.js
