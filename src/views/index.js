@@ -42,11 +42,11 @@ class IndexView extends Component {
         </div>
 
         <div className='info-box'>
-          <p> This tool automatically creates interactive timelines for competitive League of Legends games across the world. Follow the Esportspedia links below and choose one of the links in the TL column to view a timeline, or enter a match history URL.</p>
+          <p> This tool automatically creates interactive timelines for competitive League of Legends games across the world. Follow the EsportsWikis links below and choose one of the links in the TL column to view a timeline, or enter a match history URL.</p>
           <div className='esportspedia-links'>
             <h2> Tournaments: </h2>
-            <a href='http://lol.esportspedia.com/wiki/League_Championship_Series/North_America/2016_Season/Summer_Season/Match_Details'> NA LCS - Summer 2016 Regular Split </a>
-            <a href='http://lol.esportspedia.com/wiki/League_Championship_Series/Europe/2016_Season/Summer_Season/Match_Details'> EU LCS - Summer 2016 Regular Split </a>
+            <a href='http://lol.esportswikis.com/wiki/League_Championship_Series/North_America/2016_Season/Summer_Season/Match_Details'> NA LCS - Summer 2016 Regular Split </a>
+            <a href='http://lol.esportswikis.com/wiki/League_Championship_Series/Europe/2016_Season/Summer_Season/Match_Details'> EU LCS - Summer 2016 Regular Split </a>
           </div>
           <form className='pure-form' onSubmit={this.onSubmit.bind(this)}>
             <h2> Enter URL: </h2>
