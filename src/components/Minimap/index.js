@@ -13,84 +13,75 @@ const IMAGE_SIZES = {
   baron: { width: 26, height: 18 }
 }
 
-let xScale = scaleLinear([SUMMONERS_RIFT_DOMAIN.min.x, SUMMONERS_RIFT_DOMAIN.max.x], [0, MINIMAP_SIZE.width])
-let yScale = scaleLinear([SUMMONERS_RIFT_DOMAIN.min.y, SUMMONERS_RIFT_DOMAIN.max.y], [MINIMAP_SIZE.height, 0])
+const xScale = scaleLinear([SUMMONERS_RIFT_DOMAIN.min.x, SUMMONERS_RIFT_DOMAIN.max.x], [0, MINIMAP_SIZE.width])
+const yScale = scaleLinear([SUMMONERS_RIFT_DOMAIN.min.y, SUMMONERS_RIFT_DOMAIN.max.y], [MINIMAP_SIZE.height, 0])
 
 function BuildingEventSprite (event, i) {
-  let buildingType = (event.buildingType === 'TOWER_BUILDING' ? 'tower' : 'inhibitor')
-  let img = `/img/${buildingType}_${event.teamId}.png`
-  let { width, height } = IMAGE_SIZES[buildingType]
-  return <image key={i} xlinkHref={img} x={xScale(event.position.x) - (width / 2)} y={yScale(event.position.y) - (height / 2)} width={width} height={height} />
+  const buildingType = (event.buildingType === 'TOWER_BUILDING' ? 'tower' : 'inhibitor')
+  const img = `/img/${buildingType}_${event.teamId}.png`
+  const { width, height } = IMAGE_SIZES[buildingType]
+  const style = {
+    width: `${width}px`,
+    height: `${height}px`,
+    transform: `translate(${Math.round(xScale(event.position.x) - (width / 2))}px, ${Math.round(yScale(event.position.y) - (width / 2))}px)`,
+    backgroundImage: `url(${img})`
+  }
+  return (
+    <div key={i} className='event-sprite' style={style} />
+  )
 }
 
 function MonsterEventSprite (event, i) {
   if (event.monsterType === 'RIFTHERALD') return
-  let monsterType = (event.monsterType === 'DRAGON' ? 'dragon' : 'baron')
-  let teamId = (event.killerId > 5 ? 200 : 100)
-  let img = `/img/${monsterType}_${teamId}.png`
-  let { width, height } = IMAGE_SIZES[monsterType]
-  return <image key={i} xlinkHref={img} x={xScale(event.position.x) - (width / 2)} y={yScale(event.position.y) - (height / 2)} width={width} height={height} />
+  const monsterType = (event.monsterType === 'DRAGON' ? 'dragon' : 'baron')
+  const teamId = (event.killerId > 5 ? 200 : 100)
+  const img = `/img/${monsterType}_${teamId}.png`
+  const { width, height } = IMAGE_SIZES[monsterType]
+  const style = {
+    width: `${width}px`,
+    height: `${height}px`,
+    transform: `translate(${Math.round(xScale(event.position.x) - (width / 2))}px, ${Math.round(yScale(event.position.y) - (width / 2))}px)`,
+    backgroundImage: `url(${img})`
+  }
+  return (
+    <div key={i} className='event-sprite' style={style} />
+  )
 }
 
 function Minimap (props) {
-  let { data, events } = props
+  const { data, events } = props
 
   return (
     <div className='minimap'>
-      <svg width={MINIMAP_SIZE.width} height={MINIMAP_SIZE.height}>
-        <image
-          xlinkHref='/img/minimap.jpg'
-          x={0}
-          y={0}
-          width={MINIMAP_SIZE.width}
-          height={MINIMAP_SIZE.height} />
-        <defs className='player-defs'>
-          {Object.keys(data.playerStats).map((id) => {
-            let player = data.playerStats[id]
+      <img src='/img/minimap.jpg' />
+      <div className='events'>
+        {events.filter(({ timestamp }) => timestamp < data.t).map((event, i) => {
+          if (event.type === 'BUILDING_KILL') return BuildingEventSprite(event, i)
+          if (event.type === 'ELITE_MONSTER_KILL') return MonsterEventSprite(event, i)
+          return null
+        })}
+      </div>
+      <div className='players'>
+        {Object.keys(data.playerStats).sort((a, b) => {
+          const playerA = data.playerStats[a]
+          const playerB = data.playerStats[b]
 
-            return (
-              <pattern key={id} id={`player-portrait-${id}`} width={32} height={32}>
-                <image xlinkHref={`${window.Config.ddragon}/img/champion/${player.championName}.png`} width={34} height={34} x={-1} y={-1} />
-              </pattern>
-            )
-          })}
-        </defs>
-        <g>
-          {events.map((event, i) => {
-            if (event.timestamp > data.t) return null
+          return playerA.h - playerB.h
+        }).map((id) => {
+          const player = data.playerStats[id]
+          const style = {
+            transform: `translate(${Math.round(xScale(player.x) - 17)}px, ${Math.round(yScale(player.y) - 17)}px)`,
+            transitionDuration: (props.seeking ? `${props.speed}ms` : '0ms'),
+            backgroundImage: `url(${window.Config.ddragon}/img/champion/${player.championName}.png)`,
+            borderColor: (player.teamId === 100 ? '#2747e8' : '#cb2124'),
+            opacity: (player.h === 0 ? 0.4 : 1)
+          }
 
-            if (event.type === 'BUILDING_KILL') return BuildingEventSprite(event, i)
-            if (event.type === 'ELITE_MONSTER_KILL') return MonsterEventSprite(event, i)
-            return null
-          })}
-        </g>
-        <g>
-          {Object.keys(data.playerStats).sort((a, b) => {
-            let playerA = data.playerStats[a]
-            let playerB = data.playerStats[b]
-
-            return playerA.h - playerB.h
-          }).map((id) => {
-            let player = data.playerStats[id]
-            let circleProps = {
-              key: id,
-              r: 16,
-              stroke: (player.teamId === 100 ? '#2747e8' : '#cb2124'),
-              strokeWidth: 2,
-              className: 'player' + (player.h === 0 ? ' player-dead' : ''),
-              style: {
-                fill: `url(#player-portrait-${id})`,
-                transform: `translate(${xScale(player.x)}px, ${yScale(player.y)}px)`,
-                transitionDuration: (props.seeking ? `${props.speed}ms` : '0ms')
-              }
-            }
-
-            return (
-              <circle {...circleProps} />
-            )
-          })}
-        </g>
-      </svg>
+          return (
+            <div key={id} className='player-sprite' style={style} />
+          )
+        })}
+      </div>
     </div>
   )
 }
