@@ -4,6 +4,12 @@
   position: relative;
 }
 
+.minimap .minimap-image {
+  width: 512px;
+  height: 512px;
+  background-image: url('/img/minimap.jpg');
+}
+
 .minimap .players, .minimap .events {
   position: absolute;
   top: 0;

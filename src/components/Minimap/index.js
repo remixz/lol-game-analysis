@@ -53,7 +53,7 @@ function Minimap (props) {
 
   return (
     <div className='minimap'>
-      <img src='/img/minimap.jpg' />
+      <div className='minimap-image' />
       <div className='events'>
         {events.filter(({ timestamp }) => timestamp < data.t).map((event, i) => {
           if (event.type === 'BUILDING_KILL') return BuildingEventSprite(event, i)
