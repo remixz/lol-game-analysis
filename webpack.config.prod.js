@@ -25,13 +25,11 @@ let config = getConfig({
     const matchView = generateHtml(Match)
     return {
       'index.html': context.defaultTemplate({
-        title: indexView.head.title,
-        head: indexView.head.link.toString(),
+        head: `${indexView.head.title.toString()}${indexView.head.link.toString()}`,
         html: indexView.html
       }),
       '200.html': context.defaultTemplate({
-        title: matchView.head.title,
-        head: matchView.head.link.toString(),
+        head: `${matchView.head.title.toString()}${matchView.head.link.toString()}`,
         html: matchView.html
       })
     }
