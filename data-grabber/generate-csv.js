@@ -1,4 +1,3 @@
-const fs = require('fs')
 const csvStringify = require('csv-stringify')
 const moment = require('moment')
 
@@ -27,7 +26,7 @@ function generateCsv (game, cb) {
     playerData.push(`Player ${key}`, player.championId, player.summonerName, player.summonersSpell1, player.summonersSpell2, player.kills, player.deaths, player.assists)
     // add items
     let trinket = ''
-    playerItems = []
+    let playerItems = []
     player.items.forEach((item, i) => {
       if (TRINKET_IDS.indexOf(item) > -1) {
         trinket = item

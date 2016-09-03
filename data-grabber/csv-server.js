@@ -12,7 +12,7 @@ app.get('/', (req, res) => {
 
     files = files
       .filter((file) => file.endsWith('.json.finished'))
-      .map((file) => ({ name: file.split('.json.finished')[0], date: fs.statSync(`${process.cwd()}/games/${file}`).birthtime.getTime()}))
+      .map((file) => ({ name: file.split('.json.finished')[0], date: fs.statSync(`${process.cwd()}/games/${file}`).birthtime.getTime() }))
       .sort((a, b) => b.date - a.date)
       .slice(0, 20)
 
@@ -40,7 +40,7 @@ app.get('/csv/:id', (req, res) => {
     try {
       arr = JSON.parse(buf)
     } catch (e) {
-     return res.status(500).send('error (probably an old file): ' + e)
+      return res.status(500).send('error (probably an old file): ' + e)
     }
     let game = arr[arr.length - 1]
     generateCsv(game, (err, out) => {

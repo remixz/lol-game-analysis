@@ -6,27 +6,33 @@ const ReactDOMServer = require('react-dom/server')
 const App = require('./src/views/app').default
 const Index = require('./src/views/index').default
 const Match = require('./src/views/match').default
+const Helmet = require('react-helmet')
 
 let config = getConfig({
   in: 'src/app.js',
   out: 'public',
   clearBeforeBuild: '!(matches|img)',
   html (context) {
-    let title = 'League Interactive Timeline'
-    let head = '<link rel="dns-prefetch" href="https://timeline-cdn.bruggie.com/"><link rel="dns-prefetch" href="https://ddragon.leagueoflegends.com/"><link rel="dns-prefetch" href="https://lol-mh-proxy.now.sh/">'
     function generateHtml (view) {
-      return `<div id="root">${ReactDOMServer.renderToString(React.createElement(App, {}, React.createElement(view)))}</div>`
+      const html = `<div id="root">${ReactDOMServer.renderToString(React.createElement(App, {}, React.createElement(view)))}</div>`
+      const head = Helmet.rewind()
+      return {
+        html, head
+      }
     }
 
+    const indexView = generateHtml(Index)
+    const matchView = generateHtml(Match)
     return {
       'index.html': context.defaultTemplate({
-        title, head,
-        html: generateHtml(Index)
-
+        title: indexView.head.title,
+        head: indexView.head.link.toString(),
+        html: indexView.html
       }),
       '200.html': context.defaultTemplate({
-        title, head,
-        html: generateHtml(Match)
+        title: matchView.head.title,
+        head: matchView.head.link.toString(),
+        html: matchView.html
       })
     }
   }
