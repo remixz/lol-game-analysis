@@ -17,21 +17,14 @@ let config = getConfig({
       const html = `<div id="root">${ReactDOMServer.renderToString(React.createElement(App, {}, React.createElement(view)))}</div>`
       const head = Helmet.rewind()
       return {
-        html, head
+        html,
+        head: `${head.title.toString()}${head.link.toString()}`
       }
     }
 
-    const indexView = generateHtml(Index)
-    const matchView = generateHtml(Match)
     return {
-      'index.html': context.defaultTemplate({
-        head: `${indexView.head.title.toString()}${indexView.head.link.toString()}`,
-        html: indexView.html
-      }),
-      '200.html': context.defaultTemplate({
-        head: `${matchView.head.title.toString()}${matchView.head.link.toString()}`,
-        html: matchView.html
-      })
+      'index.html': context.defaultTemplate(generateHtml(Index)),
+      '200.html': context.defaultTemplate(generateHtml(Match))
     }
   }
 })
