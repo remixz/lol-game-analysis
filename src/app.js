@@ -9,7 +9,7 @@ import Index from './views/index'
 import Match from './views/match'
 
 window.Config = {
-  ddragon: '//ddragon.leagueoflegends.com/cdn/6.10.1'
+  ddragon: '//ddragon.leagueoflegends.com/cdn/6.18.1'
 }
 
 ga.initialize('UA-46859303-2')
