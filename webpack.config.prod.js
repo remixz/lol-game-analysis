@@ -1,4 +1,5 @@
 require('babel-core/register')
+require('ignore-styles')
 
 const getConfig = require('hjs-webpack')
 const React = require('react')

@@ -2,9 +2,6 @@
 @import "nouislider.css";
 @import "buttons.css";
 @import "forms.css";
-@import "../components/Minimap/index.css";
-@import "../components/TimeSlider/index.css";
-@import "../components/PlayerTable/index.css";
 
 html {
   box-sizing: border-box;
@@ -70,16 +67,6 @@ h1, h2 {
 
 .info-box form input[type="submit"] {
   margin-left: 5px;
-}
-
-.game-message {
-  width: 800px;
-  margin: 0 auto;
-  padding: 20px;
-  margin-bottom: 5px;
-  color: #8a6d3b;
-  background-color: #fcf8e3;
-  border-color: #faebcc;
 }
 
 .not-found p {

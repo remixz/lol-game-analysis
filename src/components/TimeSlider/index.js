@@ -1,3 +1,4 @@
+import './index.css'
 import React, { Component } from 'react'
 import Slider from 'react-nouislider'
 import { msToGame } from '../../utils/format-game-time'
