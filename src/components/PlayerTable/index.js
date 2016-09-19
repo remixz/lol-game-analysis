@@ -66,10 +66,12 @@ function renderList (team, players, time) {
                 <div className='health-bar' style={{ width: (player.h / player.maxHealth) * 100 + '%' }} />
                 <span className='health-text'> {player.h} / {player.maxHealth} </span>
               </div>
-              <div className='player-health'>
-                <div className='health-bar mana-bar' style={{ width: (player.p / player.maxPower) * 100 + '%' }} />
-                <span className='health-text'> {player.p} / {player.maxPower} </span>
-              </div>
+              {player.maxPower !== 0 ? (
+                <div className='player-health'>
+                  <div className='health-bar mana-bar' style={{ width: (player.p / player.maxPower) * 100 + '%' }} />
+                  <span className='health-text'> {player.p} / {player.maxPower} </span>
+                </div>
+              ) : null}
               <div className='player-items'>
                 {filterItems(player.items, player.summonerName)}
               </div>
