@@ -5,8 +5,8 @@
   "main": "index.js",
   "scripts": {
     "start": "node index.js",
-    "now-start": "mkdir /tmp/timeline_cache && TIMELINE_CACHE=/tmp/timeline_cache node compiled.js",
-    "deploy": "rm -rf timelines/* compiled.js && babel index.js --preset es2015-node > compiled.js && now"
+    "now-start": "mkdir /tmp/timeline_cache && TIMELINE_CACHE=/tmp/timeline_cache node index.js",
+    "deploy": "rm -rf timelines/* && now"
   },
   "author": "Zach Bruggeman <mail@bruggie.com>",
   "license": "MIT",
@@ -15,8 +15,6 @@
     "restify": "^4.1.0"
   },
   "devDependencies": {
-    "babel-cli": "^6.9.0",
-    "babel-preset-es2015-node": "^5.0.5",
-    "now": "^0.15.0"
+    "now": "^0.25.1"
   }
 }
