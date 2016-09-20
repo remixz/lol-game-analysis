@@ -20,6 +20,16 @@
   },
   "homepage": "https://github.com/remixz/lol-game-analysis#readme",
   "dependencies": {
+    "react": "^15.0.2",
+    "react-dom": "^15.0.2",
+    "react-ga": "^2.1.1",
+    "react-helmet": "^3.1.0",
+    "react-nouislider": "^1.11.0",
+    "react-router": "^2.4.1",
+    "simple-linear-scale": "^1.0.1",
+    "xhr": "^2.2.0"
+  },
+  "devDependencies": {
     "autoprefixer": "^6.3.6",
     "babel-core": "^6.8.0",
     "babel-loader": "^6.2.4",
@@ -30,19 +40,9 @@
     "hjs-webpack": "^8.1.0",
     "ignore-styles": "^5.0.1",
     "postcss-loader": "^0.11.1",
-    "react": "^15.0.2",
-    "react-dom": "^15.0.2",
-    "react-ga": "^2.1.1",
-    "react-helmet": "^3.1.0",
-    "react-nouislider": "^1.11.0",
-    "react-router": "^2.4.1",
-    "simple-linear-scale": "^1.0.1",
+    "standard": "^8.0.0",
     "style-loader": "^0.13.1",
     "surge": "^0.18.0",
-    "webpack": "^1.13.0",
-    "xhr": "^2.2.0"
-  },
-  "devDependencies": {
-    "standard": "^8.0.0"
+    "webpack": "^1.13.0"
   }
 }
