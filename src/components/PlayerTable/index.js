@@ -48,7 +48,7 @@ function filterItems (items, name) {
 
   let els = uniqs.map((item) => (
     <div key={item} className={`item-icon float-left ${TRINKET_IDS.indexOf(item) > -1 ? 'item-icon-trinket' : ''}`}>
-      <a href={`http://lol.esportswikis.com/wiki/${ItemNames[item]}`} target='_blank'>
+      <a href={`http://lol.esportswikis.com/wiki/${ItemNames[item]}/Match_History`} target='_blank'>
         <img src={`${window.Config.ddragon}/img/item/${item}.png`} data-tip data-for={`item-tip-${item}`} />
       </a>
       <Tooltip id={`item-tip-${item}`} effect='solid' type='dark'>
@@ -74,7 +74,7 @@ function renderList (team, players, time) {
         return (
           <li key={player.participantId}>
             <div className='player-icon float-left'>
-              <a href={`http://lol.esportswikis.com/wiki/${player.championName}`} target='_blank'>
+              <a href={`http://lol.esportswikis.com/wiki/${player.championName}/Match_History`} target='_blank'>
                 <img src={`${window.Config.ddragon}/img/champion/${player.championName}.png`} data-tip data-for={`player-champ-tip-${player.participantId}`} />
               </a>
               <Tooltip id={`player-champ-tip-${player.participantId}`} effect='solid' type='dark'>
@@ -97,7 +97,9 @@ function renderList (team, players, time) {
               </div>
             </div>
             <div className='player-details float-left'>
-              <div className='player-name'> {player.summonerName} </div>
+              <div className='player-name'>
+                {player.summonerName} <a href={`http://lol.esportswikis.com/wiki/${player.summonerName.split(' ')[1]}`} target='_blank'> <Icon name='external-link' /> </a>
+              </div>
               <div className='player-health'>
                 <div className='health-bar' style={{ width: (player.h / player.maxHealth) * 100 + '%' }} />
                 <span className='health-text'> {player.h} / {player.maxHealth} </span>
