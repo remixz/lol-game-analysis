@@ -1,6 +1,9 @@
 import './index.css'
 import React from 'react'
 import { roundToDecimal } from '../../utils/round'
+import Tooltip from 'react-tooltip'
+import Icon from 'react-fontawesome'
+import ItemNames from '../../static/items.json'
 
 const SUMMONER_IDS = {
   '1': 'SummonerBoost',
@@ -12,6 +15,18 @@ const SUMMONER_IDS = {
   '12': 'SummonerTeleport',
   '14': 'SummonerDot',
   '21': 'SummonerBarrier'
+}
+
+const SummonerNames = {
+  '1': 'Ghost',
+  '3': 'Exhaust',
+  '4': 'Flash',
+  '6': 'Cleanse',
+  '7': 'Heal',
+  '11': 'Smite',
+  '12': 'Teleport',
+  '14': 'Ignite',
+  '21': 'Barrier'
 }
 
 const TRINKET_IDS = [3340, 3341, 3363, 3364]
@@ -33,7 +48,12 @@ function filterItems (items, name) {
 
   let els = uniqs.map((item) => (
     <div key={item} className={`item-icon float-left ${TRINKET_IDS.indexOf(item) > -1 ? 'item-icon-trinket' : ''}`}>
-      <img src={`${window.Config.ddragon}/img/item/${item}.png`} />
+      <a href={`http://lol.esportswikis.com/wiki/${ItemNames[item]}`} target='_blank'>
+        <img src={`${window.Config.ddragon}/img/item/${item}.png`} data-tip data-for={`item-tip-${item}`} />
+      </a>
+      <Tooltip id={`item-tip-${item}`} effect='solid' type='dark'>
+        <span> {ItemNames[item]} <Icon name='external-link' /> </span>
+      </Tooltip>
     </div>
   ))
 
@@ -54,11 +74,26 @@ function renderList (team, players, time) {
         return (
           <li key={player.participantId}>
             <div className='player-icon float-left'>
-              <img src={`${window.Config.ddragon}/img/champion/${player.championName}.png`} />
+              <a href={`http://lol.esportswikis.com/wiki/${player.championName}`} target='_blank'>
+                <img src={`${window.Config.ddragon}/img/champion/${player.championName}.png`} data-tip data-for={`player-champ-tip-${player.participantId}`} />
+              </a>
+              <Tooltip id={`player-champ-tip-${player.participantId}`} effect='solid' type='dark'>
+                <span> {player.championName} <Icon name='external-link' /> </span>
+              </Tooltip>
               <span className='player-level'>{player.level}</span>
               <div className='player-summoners'>
-                <img src={`${window.Config.ddragon}/img/spell/${SUMMONER_IDS[String(player.summonersSpell1)]}.png`} />
-                <img src={`${window.Config.ddragon}/img/spell/${SUMMONER_IDS[String(player.summonersSpell2)]}.png`} />
+                <a href={`http://lol.esportswikis.com/wiki/${SummonerNames[String(player.summonersSpell1)]}`} target='_blank'>
+                  <img src={`${window.Config.ddragon}/img/spell/${SUMMONER_IDS[String(player.summonersSpell1)]}.png`} data-tip data-for={`player-${player.participantId}-summoner-1`} />
+                </a>
+                <Tooltip id={`player-${player.participantId}-summoner-1`} effect='solid' type='dark'>
+                  <span> {SummonerNames[String(player.summonersSpell1)]} <Icon name='external-link' /> </span>
+                </Tooltip>
+                <a href={`http://lol.esportswikis.com/wiki/${SummonerNames[String(player.summonersSpell2)]}`} target='_blank'>
+                  <img src={`${window.Config.ddragon}/img/spell/${SUMMONER_IDS[String(player.summonersSpell2)]}.png`} data-tip data-for={`player-${player.participantId}-summoner-2`} />
+                </a>
+                <Tooltip id={`player-${player.participantId}-summoner-2`} effect='solid' type='dark'>
+                  <span> {SummonerNames[String(player.summonersSpell2)]} <Icon name='external-link' /> </span>
+                </Tooltip>
               </div>
             </div>
             <div className='player-details float-left'>

@@ -1,6 +1,8 @@
 import './index.css'
 import React from 'react'
 import scaleLinear from 'simple-linear-scale'
+import Tooltip from 'react-tooltip'
+import { msToGame } from '../../utils/format-game-time'
 
 const SUMMONERS_RIFT_DOMAIN = {
   min: {x: -120, y: -120},
@@ -24,11 +26,17 @@ function BuildingEventSprite (event, i) {
   const style = {
     width: `${width}px`,
     height: `${height}px`,
-    transform: `translate(${Math.round(xScale(event.position.x) - (width / 2))}px, ${Math.round(yScale(event.position.y) - (width / 2))}px)`,
+    top: `${Math.round(yScale(event.position.y) - (width / 2))}px`,
+    left: `${Math.round(xScale(event.position.x) - (width / 2))}px`,
     backgroundImage: `url(${img})`
   }
   return (
-    <div key={i} className='event-sprite' style={style} />
+    <div key={i}>
+      <div className='event-sprite' style={style} data-tip data-for={`building-tip-${i}`} />
+      <Tooltip id={`building-tip-${i}`} effect='solid' type='dark'>
+        <span> {buildingType.charAt(0).toUpperCase() + buildingType.slice(1)} destroyed at {msToGame(event.timestamp)} </span>
+      </Tooltip>
+    </div>
   )
 }
 
@@ -41,11 +49,18 @@ function MonsterEventSprite (event, i) {
   const style = {
     width: `${width}px`,
     height: `${height}px`,
-    transform: `translate(${Math.round(xScale(event.position.x) - (width / 2))}px, ${Math.round(yScale(event.position.y) - (width / 2))}px)`,
+    top: `${Math.round(yScale(event.position.y) - (width / 2))}px`,
+    left: `${Math.round(xScale(event.position.x) - (width / 2))}px`,
     backgroundImage: `url(${img})`
   }
   return (
-    <div key={i} className='event-sprite' style={style} />
+    <div key={i}>
+      <div className='event-sprite' style={style} data-tip data-for={`monster-tip-${i}`} />
+      <Tooltip id={`monster-tip-${i}`} effect='solid' type='dark'>
+        <span> {monsterType.charAt(0).toUpperCase() + monsterType.slice(1)} killed at {msToGame(event.timestamp)} </span>
+      </Tooltip>
+    </div>
+
   )
 }
 

@@ -13,6 +13,9 @@ function App ({ children }) {
           {rel: 'dns-prefetch', href: 'https://ddragon.leagueoflegends.com/'},
           {rel: 'dns-prefetch', href: 'https://lol-mh-proxy.now.sh/'}
         ]}
+        script={[
+          {src: '//use.fontawesome.com/748eca0962.js', async: true}
+        ]}
       />
       <div className='about'>
         <p> Created by <strong><a href='https://twitter.com/zachbruggeman' target='_blank'>@zachbruggeman</a></strong> | <Link to='/' href='/'>About</Link> | <a href='https://github.com/remixz/lol-game-analysis' target='_blank'>View on GitHub</a> </p>

@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import xhr from 'xhr'
 import { Link } from 'react-router'
 import Helmet from 'react-helmet'
+import Icon from 'react-fontawesome'
 
 import TimeSlider from '../components/TimeSlider'
 import Minimap from '../components/Minimap'
@@ -161,11 +162,11 @@ class Match extends Component {
     return (
       <div className='overview'>
         <Helmet title={this.state.loading ? 'Loading...' : this.state.gameTitle} />
-        <h1>{this.state.loading ? 'Loading game data...' : this.state.gameTitle} {this.state.loading || !this.props.location.query.gameHash ? null : <a href={this.state.mhUrl} className='pure-button pure-button-primary mh-button' target='_blank'> View Match History </a>}</h1>
+        <h1>{this.state.loading ? 'Loading game data...' : this.state.gameTitle} {this.state.loading || !this.props.location.query.gameHash ? null : <a href={this.state.mhUrl} className='pure-button pure-button-primary mh-button' target='_blank'> View Match History <Icon name='external-link' /> </a>}</h1>
         <TimeSlider seeking={this.state.timer !== null} min={min} max={max} start={start} onSlide={this.onSliderChange.bind(this)} />
         <button className='pure-button pure-button-primary play-button' onClick={this.toggleTimer.bind(this)}>{playButtonText}</button>
         <div className='pure-form speed-form'>
-          <label for='speed-select'>Playback Speed: </label>
+          <label htmlFor='speed-select'>Playback Speed: </label>
           <select id='speed-select' value={this.state.timerSpeed} onChange={this.changeSpeed.bind(this)}>
             <option value={1000}>1x</option>
             <option value={500}>2x</option>

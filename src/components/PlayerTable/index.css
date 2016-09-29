@@ -48,7 +48,7 @@
   height: 64px;
 }
 
-.player-table .player-icon > img {
+.player-table .player-icon > a > img {
   width: 64px;
   height: 64px;
   margin-top: 12px;
