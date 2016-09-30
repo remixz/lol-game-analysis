@@ -19,7 +19,7 @@ let config = getConfig({
       const head = Helmet.rewind()
       return {
         html,
-        head: `${head.title.toString()}${head.link.toString()}`
+        head: `${head.title.toString()}${head.meta.toString()}${head.script.toString()}${head.link.toString()}`
       }
     }
 
