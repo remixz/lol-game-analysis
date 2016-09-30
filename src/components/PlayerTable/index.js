@@ -18,10 +18,10 @@ const SUMMONER_IDS = {
 }
 
 const SummonerNames = {
-  '1': 'Ghost',
+  '1': 'Cleanse',
   '3': 'Exhaust',
   '4': 'Flash',
-  '6': 'Cleanse',
+  '6': 'Ghost',
   '7': 'Heal',
   '11': 'Smite',
   '12': 'Teleport',
