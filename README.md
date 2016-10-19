@@ -1,20 +1,21 @@
 # lol-game-analysis
 
-League game analysis (CLG vs SKT G1 for now)
+League game analysis
 
 ## Installation
 
-Note: This is a big repo, due to the merged file (about 30mb) being in this repo.
+Requires Node 6+. This project uses Yarn for dependency management.
 
 ```
+npm install -g yarn # if not already installed
 git clone https://github.com/remixz/lol-game-analysis.git
 cd lol-game-analysis
-npm install
+yarn run setup
 ```
 
 ## Running
 
 ```bash
-npm start # starts a dev server on localhost:3000
-npm run build # outputs a production build in public/
+yarn start # starts a dev server on localhost:3000
+yarn run build # outputs a production build in public/
 ```

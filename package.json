@@ -3,10 +3,11 @@
   "version": "1.0.0",
   "description": "League game analysis",
   "scripts": {
+    "setup": "yarn && cd mh-proxy && yarn",
     "start": "hjs-dev-server & cd mh-proxy && node index.js",
     "build": "NODE_ENV=production webpack --config=webpack.config.prod.js",
-    "deploy": "npm run build && surge public/ -d timeline.bruggie.com",
-    "deploy:staging": "npm run build && surge public/ -d lol-timeline-staging.surge.sh",
+    "deploy": "yarn run build && surge public/ -d timeline.bruggie.com",
+    "deploy:staging": "yarn run build && surge public/ -d lol-timeline-staging.surge.sh",
     "test": "standard"
   },
   "repository": {
@@ -38,11 +39,11 @@
     "babel-preset-es2015": "^6.6.0",
     "babel-preset-react": "^6.5.0",
     "babel-preset-react-hmre": "^1.1.1",
-    "css-loader": "^0.24.0",
+    "css-loader": "^0.25.0",
     "hjs-webpack": "^8.1.0",
     "ignore-styles": "^5.0.1",
     "json-loader": "^0.5.4",
-    "postcss-loader": "^0.11.1",
+    "postcss-loader": "^1.0.0",
     "standard": "^8.0.0",
     "style-loader": "^0.13.1",
     "surge": "^0.18.0",
