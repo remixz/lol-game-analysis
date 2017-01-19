@@ -45,7 +45,10 @@ class IndexView extends Component {
           <p> This tool automatically creates interactive timelines for competitive League of Legends games across the world. Follow the EsportsWikis links below and choose one of the links in the TL column to view a timeline, or enter a match history URL.</p>
           <div className='esportspedia-links'>
             <h2> Tournaments: </h2>
-            <a href='http://lol.esportswikis.com/wiki/2016_Season_World_Championship/Match_Details'> <b> World Championship 2016 </b> </a>
+            <a href='http://lol.esportswikis.com/wiki/League_Championship_Series/North_America/2017_Season/Spring_Season/Match_Details'> NA LCS - Spring 2017 Regular Split </a>
+            <a href='http://lol.esportswikis.com/wiki/League_Championship_Series/Europe/2017_Season/Spring_Season/Match_Details'> EU LCS - Spring 2017 Regular Split </a>
+            <hr style={{width: '300px', margin: '15px 0'}} />
+            <a href='http://lol.esportswikis.com/wiki/2016_Season_World_Championship/Match_Details'> World Championship 2016 </a>
             <a href='http://lol.esportswikis.com/wiki/League_Championship_Series/North_America/2016_Season/Summer_Playoffs/Match_Details'> NA LCS - Summer 2016 Playoffs </a>
             <a href='http://lol.esportswikis.com/wiki/League_Championship_Series/Europe/2016_Season/Summer_Playoffs/Match_Details'> EU LCS - Summer 2016 Playoffs </a>
             <a href='http://lol.esportswikis.com/wiki/League_Championship_Series/North_America/2016_Season/Summer_Season/Match_Details'> NA LCS - Summer 2016 Regular Split </a>
